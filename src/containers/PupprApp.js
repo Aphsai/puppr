@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BoardComponent from '../components/BoardComponent'
+import BoardContainer from './BoardContainer'
 import HeaderContainer from './HeaderContainer'
 
 import firebase from '../configs/firebase';
@@ -10,9 +10,9 @@ export default class PupprApp extends React.Component {
   render() {
 
     return (
-      <div class="container">
+      <div className="container">
         <HeaderContainer />
-        <BoardComponent />
+        <BoardContainer />
       </div>
     );
   }
