@@ -12,7 +12,7 @@ export default class PupprApp extends React.Component {
     return (
       <div className="container">
         <HeaderContainer />
-        <BoardContainer />
+        {/* <BoardContainer /> */}
       </div>
     );
   }
