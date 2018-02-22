@@ -8,9 +8,10 @@ export default class BoardContainer extends React.Component {
           gallery: []
       }
   }
-componentDidMount() {
-      axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json')
-          .then(res => {
+
+ componentDidMount() {
+      axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
+
               console.log(res.data.resources);
               this.setState({gallery: res.data.resources});
           });
