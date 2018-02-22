@@ -21,13 +21,9 @@ export default class LoginContainer extends React.Component {
     const {
       email,
       password,
-    } 
+    } = this.state;
 
     auth.doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.assignUser(email);
-    })
     .catch(error => {
       this.setState({
         error: error
