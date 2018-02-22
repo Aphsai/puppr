@@ -21,7 +21,7 @@ export default class LoginContainer extends React.Component {
     const {
       email,
       password,
-    } = this.state;
+    } 
 
     auth.doSignInWithEmailAndPassword(email, password)
       .then(() => {
@@ -45,7 +45,6 @@ export default class LoginContainer extends React.Component {
     const isInvalid =
       password === '' ||
       email === '';
-
 
     return (
       <form onSubmit={this.onSubmit}>
