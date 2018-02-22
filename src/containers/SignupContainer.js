@@ -16,6 +16,9 @@ export default class SignupContainer extends React.Component {
   }
 
   onSubmit = (e) => {
+          e.preventDefault();
+
+          
     const {
       username,
       email,
@@ -25,15 +28,13 @@ export default class SignupContainer extends React.Component {
     auth.doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
         this.setState(() => ({ ...INITIAL_STATE }));
+        this.props.assignUser(username);
       })
       .catch(error => {
         this.setState({
           error: error
         });
-      }, {
-        this.props.assignUser(username);
       });
-      e.preventDefault();
 
   }
 

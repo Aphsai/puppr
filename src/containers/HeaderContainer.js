@@ -47,8 +47,8 @@ export default class HeaderContainer extends React.Component {
           <button> Upload </button>
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
-          { this.state.auth == 'login'? <LoginContainer /> :
-            this.state.auth == 'signup'? <SignupContainer /> : null
+          { this.state.auth == 'login'? <LoginContainer assignUser={this.assignUser}/> :
+            this.state.auth == 'signup'? <SignupContainer assignUser={this.assignUser}/> : null
           }
         </div>
       );
