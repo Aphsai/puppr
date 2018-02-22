@@ -16,9 +16,7 @@ export default class SignupContainer extends React.Component {
   }
 
   onSubmit = (e) => {
-          e.preventDefault();
-
-          
+    e.preventDefault();
     const {
       username,
       email,
