@@ -1,16 +1,17 @@
 import React from 'react';
 import LoginContainer from './LoginContainer';
 import SignupContainer from './SignupContainer';
-import { firebase, auth } from '../configs';
-import { db } from '../configs/firebase';
+import { firebase, auth, db } from '../configs';
 
 export default class HeaderContainer extends React.Component {
+
+
   constructor(props) {
     super(props);
     this.state = {
       auth: null,
       authUser: null,
-      username: null,
+      user: null,
     }
   }
   componentDidMount() {
@@ -23,10 +24,10 @@ export default class HeaderContainer extends React.Component {
     });
   }
   retrieveUsername = (authUser) => {
-    db.ref('users/' + authUser.uid).once('value').then(snapshot => {
+    db.getSpecificUser(authUser.uid).then(snap => {
       this.setState({
         authUser: authUser,
-        username: (snapshot.val() && snapshot.val().username) || null
+        user: snap.val()
       });
     });
   }
@@ -62,6 +63,8 @@ export default class HeaderContainer extends React.Component {
       authUser:null
     });
   }
+
+
   render() {
     if (!this.state.authUser) {
       return (
@@ -81,7 +84,7 @@ export default class HeaderContainer extends React.Component {
           <button> Upload </button>
           <button> Favourites </button>
           <button onClick={this.handleSignOut}> Sign out </button>
-          <label> {this.state.username} </label>
+          <label> {this.state.user.username} </label>
         </div>
       )
     }
