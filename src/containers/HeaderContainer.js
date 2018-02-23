@@ -64,12 +64,24 @@ export default class HeaderContainer extends React.Component {
     });
   }
 
+  uploadFile = (e) => {
+    var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
+    var xhr = new XMLHttpRequest();
+    var fd = new FormData();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    
+    fd.append('upload_preset', 'pupprupload');
+    fd.append('tags', 'browser_upload'); // Optional - add tag for image admin in Cloudinary
+    fd.append('file', e.target.files[0]);
+    xhr.send(fd);
+  }
 
   render() {
     if (!this.state.authUser) {
       return (
         <div>
-          <button> Upload </button>
+          <input type="file" onChange={this.uploadFile}/>
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
           { this.state.auth == 'login'? <LoginContainer /> :
