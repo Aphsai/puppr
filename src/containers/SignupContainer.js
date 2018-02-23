@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase, { auth } from '../configs';
+import { db, auth } from '../configs';
 
 const INITIAL_STATE = {
   username : '',
@@ -16,9 +16,7 @@ export default class SignupContainer extends React.Component {
   }
 
   onSubmit = (e) => {
-          e.preventDefault();
-
-          
+    e.preventDefault();
     const {
       username,
       email,
@@ -27,8 +25,12 @@ export default class SignupContainer extends React.Component {
 
     auth.doCreateUserWithEmailAndPassword(email, password)
       .then(authUser => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        this.props.assignUser(username);
+        db.doCreateUser(authUser.uid, username, email)
+          .catch(error => {
+            this.setState({
+              error: error
+            })
+          });
       })
       .catch(error => {
         this.setState({
