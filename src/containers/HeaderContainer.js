@@ -64,7 +64,6 @@ export default class HeaderContainer extends React.Component {
     });
   }
 
-
   render() {
     if (!this.state.authUser) {
       return (
