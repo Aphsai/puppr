@@ -10,11 +10,10 @@ export default class BoardContainer extends React.Component {
   }
 
  componentDidMount() {
-      axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
-
-              console.log(res.data.resources);
-              this.setState({gallery: res.data.resources});
-          });
+  axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
+      console.log(res.data.resources);
+      this.setState({gallery: res.data.resources});
+    });
   }
 
   render() {
