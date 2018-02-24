@@ -17,7 +17,7 @@ export default class ImageComponent extends React.Component {
           onClick={this.props.handleFavourite}>
             Heart
         </button>
-        <button onClick={this.props.handleVote}> Upvote </button>
+        <button onClick={this.props.handleVote}> Pat </button>
 
       </div>
     );

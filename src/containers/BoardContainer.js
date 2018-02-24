@@ -32,7 +32,8 @@ export default class BoardContainer extends React.Component {
     }
   }
   render() {
-    return (
+    return null;
+     return (
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {this.state.gallery.map(data =>
           <ImageComponent

@@ -71,7 +71,6 @@ export default class HeaderContainer extends React.Component {
     xhr.open('POST', url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     fd.append('upload_preset', 'pupprupload');
-    fd.append('tags', 'browser_upload'); // Optional - add tag for image admin in Cloudinary
     fd.append('file', e.target.files[0]);
     console.log(e.target.files[0]);
     if (this.state.authUser) {
@@ -83,7 +82,7 @@ export default class HeaderContainer extends React.Component {
   render() {
     if (!this.state.authUser) {
       return (
-        <div>
+        <div className= "header">
           <input type="file" onChange={this.uploadFile}/>
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
@@ -95,7 +94,7 @@ export default class HeaderContainer extends React.Component {
     }
     else {
       return (
-        <div>
+        <div className="header">
           <input type="file" onChange={this.uploadFile}/>
           <button> Favourites </button>
           <button onClick={this.handleSignOut}> Sign out </button>
