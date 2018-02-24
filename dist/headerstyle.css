@@ -1,0 +1,11 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.header {
+	width: 100%;
+	height: 50%;
+	background-color: #006987;
+}
