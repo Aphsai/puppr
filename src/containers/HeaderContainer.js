@@ -18,12 +18,12 @@ export default class HeaderContainer extends React.Component {
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
       ? (
-        this.retrieveUsername(authUser)
+        this.setUsername(authUser)
       )
       : this.setState(() => ({ authUser: null }));
     });
   }
-  retrieveUsername = (authUser) => {
+  setUsername = (authUser) => {
     db.getSpecificUser(authUser.uid).then(snap => {
       this.setState({
         authUser: authUser,
@@ -70,7 +70,6 @@ export default class HeaderContainer extends React.Component {
     var fd = new FormData();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
     fd.append('upload_preset', 'pupprupload');
     fd.append('tags', 'browser_upload'); // Optional - add tag for image admin in Cloudinary
     fd.append('file', e.target.files[0]);
@@ -93,7 +92,7 @@ export default class HeaderContainer extends React.Component {
     else {
       return (
         <div>
-          <button> Upload </button>
+          <input type="file" onChange={this.uploadFile}/>
           <button> Favourites </button>
           <button onClick={this.handleSignOut}> Sign out </button>
           <label> {this.state.user.username} </label>

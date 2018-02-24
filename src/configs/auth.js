@@ -12,3 +12,7 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
 //SIGNOUT
 export const doSignOut = () =>
   auth.signOut();
+
+  //GET USER
+  export const isLogged = () =>
+  auth.currentUser;
