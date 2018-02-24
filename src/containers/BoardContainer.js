@@ -26,7 +26,7 @@ export default class BoardContainer extends React.Component {
   handleFavourite = (e) => {
     let user = auth.isLogged();
     if (user) {
-      db.addFavouriteToUser(user.uid, e.target.dataset.id, e.target.dataset.width, e.target.dataset.height);
+      db.addFavouriteToUser(user.uid, e.target.dataset.id);
     } else {
       console.log("YOU MUST BE SIGNED IN TO FAVOURITE");
     }

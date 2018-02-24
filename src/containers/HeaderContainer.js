@@ -73,6 +73,10 @@ export default class HeaderContainer extends React.Component {
     fd.append('upload_preset', 'pupprupload');
     fd.append('tags', 'browser_upload'); // Optional - add tag for image admin in Cloudinary
     fd.append('file', e.target.files[0]);
+    console.log(e.target.files[0]);
+    if (this.state.authUser) {
+      db.addImageToUser(this.state.authUser.uid, e.target.files[0].name)
+    }
     xhr.send(fd);
   }
 
