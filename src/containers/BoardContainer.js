@@ -35,7 +35,7 @@ export default class BoardContainer extends React.Component {
     if (this.state.authUser)
     db.addFavouriteToUser(this.state.authUser.uid, public_id);
   }
-  render() {
+  render() { 
     return (
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {this.state.gallery.map(data =>
