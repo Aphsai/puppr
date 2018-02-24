@@ -10,7 +10,7 @@ export default class PupprApp extends React.Component {
   render() {
 
     return (
-      <div className="container">
+      <div>
         <HeaderContainer />
         <BoardContainer />
       </div>
