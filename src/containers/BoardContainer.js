@@ -32,8 +32,7 @@ export default class BoardContainer extends React.Component {
     }
   }
   render() { 
-    return null;
-    /* return (
+    return (
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {this.state.gallery.map(data =>
           <ImageComponent
@@ -47,6 +46,6 @@ export default class BoardContainer extends React.Component {
           />
         )}
       </div>
-    ); */
+    );
   }
 }
