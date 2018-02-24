@@ -31,11 +31,12 @@ export default class BoardContainer extends React.Component {
     height = 300;
     return {height:height, width:width}
   }
-  handleFavourite = (public_id) => {
-    if (this.state.authUser)
-    db.addFavouriteToUser(this.state.authUser.uid, public_id);
+  handleFavourite = (e) => {
+    if (this.state.authUser) {
+      db.addFavouriteToUser(this.state.authUser.uid, e.target.dataset.id);
+    }
   }
-  render() { 
+  render() {
     return (
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {this.state.gallery.map(data =>

@@ -82,7 +82,7 @@ export default class HeaderContainer extends React.Component {
     fd.append('file', e.target.files[0]);
     fd.append('public_id', fileName);
     if (this.state.authUser) {
-      db.addImageToUser(this.state.authUser.uid, e.target.files[0].name);
+      db.addImageToUser(this.state.authUser.uid, fileName);
     }
     db.doCreateImage(fileName);
     xhr.send(fd);
