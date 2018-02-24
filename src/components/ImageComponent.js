@@ -1,9 +1,5 @@
 import React from 'react';
-
 export default class ImageComponent extends React.Component {
-
-
-
 
   render() {
     return (
@@ -14,7 +10,8 @@ export default class ImageComponent extends React.Component {
           data-id={this.props.public_id}
           data-width={this.props.dbDimension.width}
           data-height={this.props.dbDimension.height}
-          onClick={this.props.handleFavourite}>
+          onClick={this.props.handleFavourite(this.props.public_id)}
+          disabled={this.props.disabled}>
             Heart
         </button>
         <button onClick={this.props.handleVote}> Upvote </button>
