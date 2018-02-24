@@ -25,3 +25,8 @@ export const addImageToUser = (uid, public_id) => {
     public_id: public_id
   });
 }
+
+export const doCreateImage = (id) =>
+  db.ref(`images/${id}`).set({
+    upvote: 0,
+  });

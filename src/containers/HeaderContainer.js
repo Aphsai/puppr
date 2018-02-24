@@ -3,16 +3,23 @@ import LoginContainer from './LoginContainer';
 import SignupContainer from './SignupContainer';
 import { firebase, auth, db } from '../configs';
 
-export default class HeaderContainer extends React.Component {
 
+
+export default class HeaderContainer extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       auth: null,
       authUser: null,
-      user: null,
+      user: null
     }
+  }
+  guidGenerator = () => {
+    function S4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
+    return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
   }
   componentDidMount() {
     firebase.auth.onAuthStateChanged(authUser => {
@@ -68,14 +75,16 @@ export default class HeaderContainer extends React.Component {
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
+    var fileName = this.guidGenerator();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     fd.append('upload_preset', 'pupprupload');
     fd.append('file', e.target.files[0]);
-    console.log(e.target.files[0]);
+    fd.append('public_id', fileName);
     if (this.state.authUser) {
-      db.addImageToUser(this.state.authUser.uid, e.target.files[0].name)
+      db.addImageToUser(this.state.authUser.uid, e.target.files[0].name);
     }
+    db.doCreateImage(fileName);
     xhr.send(fd);
   }
 
