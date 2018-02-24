@@ -31,9 +31,9 @@ export default class BoardContainer extends React.Component {
       console.log("YOU MUST BE SIGNED IN TO FAVOURITE");
     }
   }
-  render() {
+  render() { 
     return null;
-     return (
+    /* return (
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {this.state.gallery.map(data =>
           <ImageComponent
@@ -47,6 +47,6 @@ export default class BoardContainer extends React.Component {
           />
         )}
       </div>
-    );
+    ); */
   }
 }

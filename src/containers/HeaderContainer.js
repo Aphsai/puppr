@@ -92,7 +92,11 @@ export default class HeaderContainer extends React.Component {
     if (!this.state.authUser) {
       return (
         <div className= "header">
-          <input type="file" onChange={this.uploadFile}/>
+          <div className="upload-button">
+            <label className= "upload"> upload
+              <input type="file" onChange={this.uploadFile}/>
+            </label>
+          </div>
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
           { this.state.auth == 'login'? <LoginContainer /> :
