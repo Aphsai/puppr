@@ -14,12 +14,7 @@ export default class HeaderContainer extends React.Component {
       user: null
     }
   }
-  guidGenerator = () => {
-    function S4() {
-      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    }
-    return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
-  }
+
   componentDidMount() {
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
@@ -29,6 +24,7 @@ export default class HeaderContainer extends React.Component {
       : this.setState(() => ({ authUser: null }));
     });
   }
+  
   setUsername = (authUser) => {
     console.log(authUser);
     db.getSpecificUser(authUser.uid).then(snap => {
@@ -63,6 +59,7 @@ export default class HeaderContainer extends React.Component {
       })
     }
   }
+
   handleSignOut = (e) => {
     e.preventDefault();
     auth.doSignOut();
