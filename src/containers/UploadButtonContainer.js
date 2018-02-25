@@ -21,6 +21,7 @@ export default class UploadButtonContainer extends React.Component {
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
     var fileName = this.guidGenerator();
+    var fr = new FileReader;
     xhr.open('POST', url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
@@ -43,11 +44,20 @@ export default class UploadButtonContainer extends React.Component {
     fd.append('upload_preset', 'pupprupload');
     fd.append('file', e.target.files[0]);
     fd.append('public_id', fileName);
-    xhr.send(fd);
-    if (this.props.uid) {
-      this.props.addImageToUser(this.props.uid, fileName);
+    fr.onload = () => {
+      let img = new Image;
+      img.onload = () => {
+        if (this.props.uid) {
+          this.props.addImageToUser(this.props.uid, fileName);
+        }
+        console.log(this.props.uid);
+        this.props.doCreateImage(fileName, img.width, img.height);
+      }
+      img.src=fr.result;
     }
-    this.props.doCreateImage(fileName);
+    fr.readAsDataURL(e.target.files[0]);
+    xhr.send(fd);
+    //
   }
 
   render() {

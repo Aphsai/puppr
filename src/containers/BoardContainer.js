@@ -15,11 +15,26 @@ export default class BoardContainer extends React.Component {
           previewOpen: false,
       }
   }
+  componentWillMount() {
 
+  }
   componentDidMount() {
-    axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
-      this.setState({gallery: res.data.resources});
+    db.getListOfImages().then(data => {
+      let galleryData = [];
+      data.forEach(element => {
+        galleryData.push({
+          public_id: element.val().public_id,
+          width: element.val().width,
+          height: element.val().height,
+        });
+      });
+      this.setState({
+        gallery: galleryData,
+      });
     });
+    // axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
+    //   this.setState({gallery: res.data.resources});
+    // });
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
       ? (
@@ -47,7 +62,6 @@ export default class BoardContainer extends React.Component {
   }
   render() {
       if (!this.state.previewOpen) {
-        console.log(this.state.previewOpen);
         return (
           <div style={{display:'flex', flexWrap:'wrap'}}>
             {this.state.gallery.map(data =>
@@ -66,14 +80,12 @@ export default class BoardContainer extends React.Component {
           </div>
         );
     } else {
-      console.log(this.state.previewOpen);
       return (
         <div style={{display:'flex', flexWrap:'wrap'}}>
           <PreviewComponent
             src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + this.state.previewOpen.url + '.jpg'}
             dbDimension={{width: this.state.previewOpen.width, height: this.state.previewOpen.height}}
             handleClick={this.clickImage} />
-
           <button onClick={this.clickImage}>leave</button>
         </div>
       );

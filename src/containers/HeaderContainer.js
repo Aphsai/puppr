@@ -74,6 +74,7 @@ export default class HeaderContainer extends React.Component {
         <div className= "header">
           <UploadButtonContainer
             uid={null}
+            doCreateImage={db.doCreateImage}
           />
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
