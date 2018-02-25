@@ -18,15 +18,12 @@ export default class HeaderContainer extends React.Component {
   componentDidMount() {
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
-      ? (
-        this.setUsername(authUser)
-      )
+      ? (this.setUsername(authUser))
       : this.setState(() => ({ authUser: null }));
     });
   }
-  
+
   setUsername = (authUser) => {
-    console.log(authUser);
     db.getSpecificUser(authUser.uid).then(snap => {
       console.log(snap.val());
       this.setState({
@@ -35,6 +32,7 @@ export default class HeaderContainer extends React.Component {
       });
     });
   }
+
   toggleLogin = () => {
     if (this.state.auth != 'login') {
       this.setState({

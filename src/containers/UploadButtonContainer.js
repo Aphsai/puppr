@@ -7,7 +7,7 @@ export default class UploadButtonContainer extends React.Component {
       loading: false
     }
   }
-  
+
   guidGenerator = () => {
     function S4() {
       return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -16,28 +16,49 @@ export default class UploadButtonContainer extends React.Component {
   }
 
   uploadFile = (e) => {
+    console.log("functioning?");
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
     var fileName = this.guidGenerator();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    //update progress bar
+    xhr.upload.addEventListener("progress", (e) => {
+      this.setState({
+        loading: Math.round((e.loaded * 100.0) / e.total)
+      })
+    });
+
+    //check if finished uploading
+    xhr.addEventListener("readystatechange", (e) => {
+      console.log(xhr.readyState);
+      if (xhr.readyState === 4) {
+        this.setState ({
+          loading:false
+        });
+      }
+    })
     fd.append('upload_preset', 'pupprupload');
     fd.append('file', e.target.files[0]);
     fd.append('public_id', fileName);
-    if (this.props.authUser.uid) {
-      this.props.addImageToUser(this.props.authUser.uid, fileName);
+    xhr.send(fd);
+    if (this.props.uid) {
+      this.props.addImageToUser(this.props.uid, fileName);
     }
     this.props.doCreateImage(fileName);
-    xhr.send(fd);
   }
 
   render() {
     return (
       <div className="upload-button">
-        <label className= "upload"> upload
-          <input type="file" onChange={this.uploadFile}/>
-        </label>
+          {!this.state.loading
+            ?(<label className= "upload"> upload
+                <input type="file" onChange={this.uploadFile}/>
+            </label>)
+            :<div style={{height:'10px', width:this.state.loading, backgroundColor:'red'}}></div>
+          }
       </div>
     );
   }
