@@ -15,9 +15,7 @@ export default class BoardContainer extends React.Component {
           previewOpen: false,
       }
   }
-  componentWillMount() {
 
-  }
   componentDidMount() {
     db.getListOfImages().then(data => {
       let galleryData = [];
@@ -32,14 +30,22 @@ export default class BoardContainer extends React.Component {
         gallery: galleryData,
       });
     });
-    // axios.get('https://res.cloudinary.com/dl2zhlvci/image/list/dogs.json').then(res => {
-    //   this.setState({gallery: res.data.resources});
-    // });
+
+    db.getRefOfImages().on('child_added', data => {
+      this.setState({
+        gallery: this.state.gallery.concat({
+          public_id: data.val().public_id,
+          width: data.val().width,
+          height: data.val().height,
+        })
+      });
+    });
+
+
+
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
-      ? (
-        this.setState(() => ({ authUser: authUser }))
-      )
+      ? this.setState(() => ({ authUser: authUser }))
       : this.setState(() => ({ authUser: null }));
     });
   }

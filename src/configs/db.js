@@ -17,6 +17,12 @@ export const getSpecificUser = (uid) =>
 export const getListOfImages = () =>
   db.ref('images/').once('value');
 
+export const getRefOfImages = () => 
+  db.ref('images/');
+
+
+
+
 export const addFavouriteToUser = (uid, public_id) => {
   db.ref(`users/${uid}/favourites/${public_id}`).set({
     public_id : public_id
