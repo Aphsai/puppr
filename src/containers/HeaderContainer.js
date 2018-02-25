@@ -1,9 +1,8 @@
 import React from 'react';
 import LoginContainer from './LoginContainer';
 import SignupContainer from './SignupContainer';
+import UploadButtonContainer from './UploadButtonContainer'
 import { firebase, auth, db } from '../configs';
-
-
 
 export default class HeaderContainer extends React.Component {
 
@@ -31,7 +30,9 @@ export default class HeaderContainer extends React.Component {
     });
   }
   setUsername = (authUser) => {
+    console.log(authUser);
     db.getSpecificUser(authUser.uid).then(snap => {
+      console.log(snap.val());
       this.setState({
         authUser: authUser,
         user: snap.val()
@@ -71,32 +72,14 @@ export default class HeaderContainer extends React.Component {
     });
   }
 
-  uploadFile = (e) => {
-    var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
-    var xhr = new XMLHttpRequest();
-    var fd = new FormData();
-    var fileName = this.guidGenerator();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    fd.append('upload_preset', 'pupprupload');
-    fd.append('file', e.target.files[0]);
-    fd.append('public_id', fileName);
-    if (this.state.authUser) {
-      db.addImageToUser(this.state.authUser.uid, fileName);
-    }
-    db.doCreateImage(fileName);
-    xhr.send(fd);
-  }
 
   render() {
     if (!this.state.authUser) {
       return (
         <div className= "header">
-          <div className="upload-button">
-            <label className= "upload"> upload
-              <input type="file" onChange={this.uploadFile}/>
-            </label>
-          </div>
+          <UploadButtonContainer
+            uid={null}
+          />
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
           { this.state.auth == 'login'? <LoginContainer /> :
@@ -108,10 +91,14 @@ export default class HeaderContainer extends React.Component {
     else {
       return (
         <div className="header">
-          <input type="file" onChange={this.uploadFile}/>
-          <button> Favourites </button>
-          <button onClick={this.handleSignOut}> Sign out </button>
-          <label> {this.state.user.username} </label>
+        <UploadButtonContainer
+          uid={this.state.authUser.uid}
+          addImageToUser={db.addImageToUser}
+          doCreateImage={db.doCreateImage}
+        />
+        <button> Favourites </button>
+        <button onClick={this.handleSignOut}> Sign out </button>
+        <label> {this.state.user.username} </label>
         </div>
       )
     }
