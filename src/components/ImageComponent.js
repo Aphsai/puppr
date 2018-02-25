@@ -5,7 +5,15 @@ export default class ImageComponent extends React.Component {
     return (
       <div>
 
-        <img width={this.props.dimension.width} height={this.props.dimension.height} src={this.props.src} />
+        <img 
+          onClick={this.props.openPreview}
+          data-id={this.props.public_id} 
+          data-width={this.props.dbDimension.width} 
+          data-height={this.props.dbDimension.height} 
+          width={this.props.dimension.width}
+          height={this.props.dimension.height}
+          src={this.props.src} 
+        />
         <button
           data-id={this.props.public_id}
           onClick={this.props.handleFavourite}
