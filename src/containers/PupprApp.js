@@ -1,18 +1,57 @@
 import React from 'react';
-
 import BoardContainer from './BoardContainer'
 import HeaderContainer from './HeaderContainer'
-
-import firebase from '../configs/firebase';
+import { firebase, auth, db } from '../configs';
 
 
 export default class PupprApp extends React.Component {
-  render() {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      authUser: null,
+      user: null,
+      visibilityFilter: 'TIME',
+    }
+  }
+
+  componentDidMount() {
+    firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+      ? (this.setUsername(authUser))
+      : this.setState(() => ({ authUser: null }));
+    });
+  }
+
+  setUsername = (authUser) => {
+    db.getSpecificUser(authUser.uid).then(snap => {
+      this.setState({
+        authUser: authUser,
+        user: snap.val()
+      });
+    });
+  }
+
+  handleVisibilityFilter = (id) => {
+    this.setState({
+      visibilityFilter: id
+    });
+  }
+
+  render() {
     return (
       <div>
-        <HeaderContainer />
-        <BoardContainer />
+        <HeaderContainer
+          authUser={this.state.authUser}
+          user={this.state.user}
+          visibilityFilter={this.state.visibilityFilter}
+          handleVisibilityFilter={this.handleVisibilityFilter}
+         />
+        <BoardContainer
+          authUser={this.state.authUser}
+          user={this.state.user}
+          visibilityFilter={this.state.visibilityFilter}
+         />
       </div>
     );
   }

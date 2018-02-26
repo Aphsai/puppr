@@ -17,6 +17,7 @@ export default class UploadButtonContainer extends React.Component {
 
   uploadFile = (e) => {
     console.log("functioning?");
+    let file = e.target.files[0];
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
@@ -39,10 +40,11 @@ export default class UploadButtonContainer extends React.Component {
         this.setState ({
           loading:false
         });
+        fr.readAsDataURL(file);
       }
     })
     fd.append('upload_preset', 'pupprupload');
-    fd.append('file', e.target.files[0]);
+    fd.append('file', file);
     fd.append('public_id', fileName);
     fr.onload = () => {
       let img = new Image;
@@ -55,7 +57,6 @@ export default class UploadButtonContainer extends React.Component {
       }
       img.src=fr.result;
     }
-    fr.readAsDataURL(e.target.files[0]);
     xhr.send(fd);
     //
   }

@@ -11,11 +11,10 @@ export default class BoardContainer extends React.Component {
       super(props);
       this.state = {
           gallery: [],
-          authUser: null,
+          user: null,
           previewOpen: false,
       }
   }
-
   componentDidMount() {
     db.getListOfImages().then(data => {
       let galleryData = [];
@@ -41,13 +40,6 @@ export default class BoardContainer extends React.Component {
       });
     });
 
-
-
-    firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-      ? this.setState(() => ({ authUser: authUser }))
-      : this.setState(() => ({ authUser: null }));
-    });
   }
   changeDimension = (height, width) => {
     height *= 300/width;
@@ -55,8 +47,8 @@ export default class BoardContainer extends React.Component {
     return {height:height, width:width}
   }
   handleFavourite = (e) => {
-    if (this.state.authUser) {
-      db.addFavouriteToUser(this.state.authUser.uid, e.target.dataset.id);
+    if (this.props.authUser) {
+      db.addFavouriteToUser(this.props.authUser.uid, e.target.dataset.id);
     }
   }
   clickImage = (e) => {
@@ -66,17 +58,20 @@ export default class BoardContainer extends React.Component {
       this.setState({ previewOpen: false });
     }
   }
+  handleVisibilityFilter = (visibilityFilter) => {
+    console.log(this.props.user.favourites);
+  }
   render() {
-      if (!this.state.previewOpen) {
+    console.log(this.props.user);
+    if (!this.state.previewOpen) {
         return (
-          // <div style={{display:'flex', flexWrap:'wrap'}}>
             <Masonry>
             {this.state.gallery.map(data =>
               <ImageComponent
                 src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
                 dimension={this.changeDimension(data.height, data.width)}
                 dbDimension={{width: data.width, height:data.height}}
-                disabled={!this.state.authUser}
+                disabled={!this.props.authUser}
                 key={data.public_id}
                 public_id={data.public_id}
                 handleFavourite={this.handleFavourite}
@@ -85,7 +80,6 @@ export default class BoardContainer extends React.Component {
               />
             )}
           </Masonry>
-          // </div>
         );
     } else {
       return (
