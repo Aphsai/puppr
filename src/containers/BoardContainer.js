@@ -48,6 +48,12 @@ export default class BoardContainer extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.authUser) {
       this.user = newProps.user;
+      if (!this.user.favourites) {
+        this.user.favourites = [];
+      }
+      if (!this.user.uploaded) {
+        this.user.uploaded = [];
+      }
       db.getRefOfFavourites(newProps.authUser.uid).on('child_added', data => {
         this.user.favourites[data.key] = data.val();
       });
@@ -63,7 +69,13 @@ export default class BoardContainer extends React.Component {
   }
   handleFavourite = (e) => {
     if (this.props.authUser) {
-      db.addFavouriteToUser(this.props.authUser.uid, e.target.dataset.id);
+      if (!this.user.favourites[e.target.dataset.id]) {
+        db.addFavouriteToUser(this.props.authUser.uid, e.target.dataset.id);
+      }
+      else {
+        delete this.user.favourites[e.target.dataset.id];
+        db.destroyFavouriteFromUser(this.props.authUser.uid, e.target.dataset.id);
+      }
     }
   }
   clickImage = (e) => {
@@ -81,7 +93,7 @@ export default class BoardContainer extends React.Component {
         return this.state.gallery.filter(id => {
           let public_id = id.public_id;
           return (this.user.favourites
-          ? Object.values(this.user.favourites).includes(public_id)
+          ? Object.keys(this.user.favourites).includes(public_id)
           :  null);
       });
       case 'YOUR UPLOADS':
@@ -96,6 +108,9 @@ export default class BoardContainer extends React.Component {
     }
   }
   render() {
+    // TODO add unheart button
+    // TODO add delete button to uploads
+
     let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
     if (!this.state.previewOpen) {
         return (
