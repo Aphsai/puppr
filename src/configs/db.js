@@ -21,12 +21,18 @@ export const getRefOfImages = () =>
   db.ref('images/');
 
 export const addFavouriteToUser = (uid, public_id) => {
-  db.ref(`users/${uid}/favourites/${public_id}`).push(public_id);
+  db.ref(`users/${uid}/favourites/`).push(public_id);
 }
 
+export const getRefOfFavourites = (uid) =>
+  db.ref(`users/${uid}/favourites`);
+
 export const addImageToUser = (uid, public_id) => {
-  db.ref(`users/${uid}/uploaded/${public_id}`).push(public_id);
+  db.ref(`users/${uid}/uploaded/`).push(public_id);
 }
+
+export const getRefOfUploads = (uid) =>
+  db.ref(`users/${uid}/uploaded`);
 
 export const doCreateImage = (id, img_width, img_height) =>
   db.ref(`images/`).push({

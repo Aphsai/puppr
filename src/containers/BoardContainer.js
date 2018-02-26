@@ -17,7 +17,7 @@ export default class BoardContainer extends React.Component {
   }
   componentDidMount() {
     console.log("BoardContainer has mounted.");
-    this.user = this.props.user;
+    //Get current gallery
     db.getListOfImages().then(data => {
       let galleryData = [];
       data.forEach(element => {
@@ -32,7 +32,7 @@ export default class BoardContainer extends React.Component {
         gallery: galleryData,
       });
     });
-
+    //Check if new child added
     db.getRefOfImages().on('child_added', data => {
       this.setState({
         gallery: this.state.gallery.concat({
@@ -42,7 +42,19 @@ export default class BoardContainer extends React.Component {
         })
       });
     });
+    console.log("AuthUser: " + this.props.authUser);
 
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.authUser) {
+      this.user = newProps.user;
+      db.getRefOfFavourites(newProps.authUser.uid).on('child_added', data => {
+        this.user.favourites[data.key] = data.val();
+      });
+      db.getRefOfUploads(newProps.authUser.uid).on('child_added', data => {
+        this.user.uploaded[data.key] = data.val();
+      });
+    }
   }
   changeDimension = (height, width) => {
     height *= 300/width;
@@ -68,12 +80,16 @@ export default class BoardContainer extends React.Component {
       case 'FAVOURITES':
         return this.state.gallery.filter(id => {
           let public_id = id.public_id;
-          return Object.keys(this.props.user.favourites).includes(public_id);
+          return (this.user.favourites
+          ? Object.values(this.user.favourites).includes(public_id)
+          :  null);
       });
       case 'YOUR UPLOADS':
         return this.state.gallery.filter(id => {
           let public_id = id.public_id;
-          return Object.keys(this.props.user.uploaded).includes(public_id);
+          return (this.user.uploaded
+          ? Object.values(this.user.uploaded).includes(public_id)
+          : null);
       });
       default:
         return this.state.gallery;

@@ -52,7 +52,6 @@ export default class HeaderContainer extends React.Component {
 
   render() {
     if (!this.props.authUser) {
-      console.log("...User not signed in.");
       return (
         <div className= "header">
           <UploadButtonContainer
@@ -70,7 +69,6 @@ export default class HeaderContainer extends React.Component {
       );
     }
     else {
-      console.log(this.props.username + " has signed in.")
       return (
         <div className="header">
         <UploadButtonContainer
