@@ -11,11 +11,13 @@ export default class BoardContainer extends React.Component {
       super(props);
       this.state = {
           gallery: [],
-          user: null,
           previewOpen: false,
       }
+      this.user = [];
   }
   componentDidMount() {
+    console.log("BoardContainer has mounted.");
+    this.user = this.props.user;
     db.getListOfImages().then(data => {
       let galleryData = [];
       data.forEach(element => {
@@ -23,8 +25,9 @@ export default class BoardContainer extends React.Component {
           public_id: element.val().public_id,
           width: element.val().width,
           height: element.val().height,
-        });
+        });;
       });
+      console.log("Retrieving data");
       this.setState({
         gallery: galleryData,
       });
@@ -59,14 +62,29 @@ export default class BoardContainer extends React.Component {
     }
   }
   handleVisibilityFilter = (visibilityFilter) => {
-    console.log(this.props.user.favourites);
+    switch (visibilityFilter) {
+      case 'TIME':
+        return this.state.gallery;
+      case 'FAVOURITES':
+        return this.state.gallery.filter(id => {
+          let public_id = id.public_id;
+          return Object.keys(this.props.user.favourites).includes(public_id);
+      });
+      case 'YOUR UPLOADS':
+        return this.state.gallery.filter(id => {
+          let public_id = id.public_id;
+          return Object.keys(this.props.user.uploaded).includes(public_id);
+      });
+      default:
+        return this.state.gallery;
+    }
   }
   render() {
-    console.log(this.props.user);
+    let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
     if (!this.state.previewOpen) {
         return (
             <Masonry>
-            {this.state.gallery.map(data =>
+            {visibleImages.map(data =>
               <ImageComponent
                 src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
                 dimension={this.changeDimension(data.height, data.width)}

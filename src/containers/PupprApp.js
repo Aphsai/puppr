@@ -18,12 +18,13 @@ export default class PupprApp extends React.Component {
   componentDidMount() {
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
-      ? (this.setUsername(authUser))
+      ? this.setUsername(authUser)
       : this.setState(() => ({ authUser: null }));
     });
   }
 
   setUsername = (authUser) => {
+    console.log("Signing in. ");
     db.getSpecificUser(authUser.uid).then(snap => {
       this.setState({
         authUser: authUser,
@@ -43,7 +44,7 @@ export default class PupprApp extends React.Component {
       <div>
         <HeaderContainer
           authUser={this.state.authUser}
-          user={this.state.user}
+          username={this.state.user?this.state.user.username:''}
           visibilityFilter={this.state.visibilityFilter}
           handleVisibilityFilter={this.handleVisibilityFilter}
          />

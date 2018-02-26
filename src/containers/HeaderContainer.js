@@ -52,6 +52,7 @@ export default class HeaderContainer extends React.Component {
 
   render() {
     if (!this.props.authUser) {
+      console.log("...User not signed in.");
       return (
         <div className= "header">
           <UploadButtonContainer
@@ -69,6 +70,7 @@ export default class HeaderContainer extends React.Component {
       );
     }
     else {
+      console.log(this.props.username + " has signed in.")
       return (
         <div className="header">
         <UploadButtonContainer
@@ -81,7 +83,7 @@ export default class HeaderContainer extends React.Component {
         <button onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> Uploads </button>
         <button onClick={this.handleVisibilityFilter} data-id='PATS'> Pats </button>
         <button onClick={this.handleSignOut}> Sign out </button>
-        <label> {this.props.user.username} </label>
+        <label> {this.props.username} </label>
         </div>
       );
     }

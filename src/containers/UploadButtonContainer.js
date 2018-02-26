@@ -16,7 +16,7 @@ export default class UploadButtonContainer extends React.Component {
   }
 
   uploadFile = (e) => {
-    console.log("functioning?");
+    console.log("Uploading file.");
     let file = e.target.files[0];
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
@@ -35,8 +35,8 @@ export default class UploadButtonContainer extends React.Component {
 
     //check if finished uploading
     xhr.addEventListener("readystatechange", (e) => {
-      console.log(xhr.readyState);
       if (xhr.readyState === 4) {
+        console.log("Upload complete. Success");
         this.setState ({
           loading:false
         });
@@ -52,7 +52,6 @@ export default class UploadButtonContainer extends React.Component {
         if (this.props.uid) {
           this.props.addImageToUser(this.props.uid, fileName);
         }
-        console.log(this.props.uid);
         this.props.doCreateImage(fileName, img.width, img.height);
       }
       img.src=fr.result;
