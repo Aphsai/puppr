@@ -3,16 +3,16 @@ export default class ImageComponent extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', width:this.props.dimension.width}}>
 
-        <img 
+        <img
           onClick={this.props.openPreview}
-          data-id={this.props.public_id} 
-          data-width={this.props.dbDimension.width} 
-          data-height={this.props.dbDimension.height} 
+          data-id={this.props.public_id}
+          data-width={this.props.dbDimension.width}
+          data-height={this.props.dbDimension.height}
           width={this.props.dimension.width}
           height={this.props.dimension.height}
-          src={this.props.src} 
+          src={this.props.src}
         />
         <button
           data-id={this.props.public_id}

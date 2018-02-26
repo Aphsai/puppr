@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import Masonry from 'react-masonry-component';
 import { db, auth, firebase } from '../configs';
 import ImageComponent from '../components/ImageComponent';
 import PreviewComponent from '../components/PreviewComponent';
-
 
 export default class BoardContainer extends React.Component {
 
@@ -50,8 +50,8 @@ export default class BoardContainer extends React.Component {
     });
   }
   changeDimension = (height, width) => {
-    width *= 300/height;
-    height = 300;
+    height *= 300/width;
+    width = 300;
     return {height:height, width:width}
   }
   handleFavourite = (e) => {
@@ -69,7 +69,8 @@ export default class BoardContainer extends React.Component {
   render() {
       if (!this.state.previewOpen) {
         return (
-          <div style={{display:'flex', flexWrap:'wrap'}}>
+          // <div style={{display:'flex', flexWrap:'wrap'}}>
+            <Masonry>
             {this.state.gallery.map(data =>
               <ImageComponent
                 src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
@@ -83,7 +84,8 @@ export default class BoardContainer extends React.Component {
                 openPreview={this.clickImage}
               />
             )}
-          </div>
+          </Masonry>
+          // </div>
         );
     } else {
       return (
