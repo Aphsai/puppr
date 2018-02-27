@@ -40,10 +40,9 @@ export default class HeaderContainer extends React.Component {
 
   handleSignOut = (e) => {
     e.preventDefault();
-    auth.doSignOut();
+    this.props.handleSignOut(e);
     this.setState({
       auth:null,
-      authUser:null
     });
   }
   handleVisibilityFilter = (e) => {

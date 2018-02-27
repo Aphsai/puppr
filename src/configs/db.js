@@ -2,11 +2,16 @@ import { db } from './firebase';
 
 // User API
 
-export const doCreateUser = (id, username, email) =>
-  db.ref(`users/${id}`).set({
+export const doCreateUser = (id, username, email) => {
+  let favourites = {placeholder: 'empty_child'};
+  let uploaded = {placeholder: 'empty_child'}
+  return db.ref(`users/${id}`).set({
+    favourites,
+    uploaded,
     username,
     email,
   });
+}
 
 export const onceGetUsers = () =>
   db.ref('users').once('value');
@@ -15,10 +20,10 @@ export const getSpecificUser = (uid) =>
   db.ref('users/' + uid).once('value');
 
 export const getListOfImages = () =>
-  db.ref('images/').once('value');
+  db.ref('images').once('value');
 
 export const getRefOfImages = () =>
-  db.ref('images/');
+  db.ref('images');
 
 export const addFavouriteToUser = (uid, public_id) => {
   db.ref(`users/${uid}/favourites/${public_id}`).push(public_id);
@@ -35,15 +40,16 @@ export const addImageToUser = (uid, public_id) => {
   db.ref(`users/${uid}/uploaded/${public_id}`).push(public_id);
 }
 
-export const destroyImageFromUser = (uid, public_id) => {
+export const destroyImage = (uid, public_id) => {
   db.ref(`users/${uid}/uploaded/${public_id}`).remove();
+  db.ref(`images/${public_id}`).remove();
 }
 
 export const getRefOfUploads = (uid) =>
   db.ref(`users/${uid}/uploaded`);
 
 export const doCreateImage = (id, img_width, img_height) =>
-  db.ref(`images/`).push({
+  db.ref(`images/${id}`).set({
     public_id: id,
     upvote: 0,
     width: img_width,

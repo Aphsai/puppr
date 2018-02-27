@@ -39,6 +39,15 @@ export default class PupprApp extends React.Component {
     });
   }
 
+  handleSignOut = (e) => {
+    e.preventDefault();
+    auth.doSignOut();
+    this.setState({
+      authUser: null,
+      user: null
+    });
+  }
+
   render() {
     return (
       <div>
@@ -47,6 +56,7 @@ export default class PupprApp extends React.Component {
           username={this.state.user?this.state.user.username:''}
           visibilityFilter={this.state.visibilityFilter}
           handleVisibilityFilter={this.handleVisibilityFilter}
+          handleSignOut={this.handleSignOut}
          />
         <BoardContainer
           authUser={this.state.authUser}

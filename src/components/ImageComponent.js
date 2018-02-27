@@ -3,6 +3,7 @@ export default class ImageComponent extends React.Component {
 
   render() {
     // console.log(this.props.unheart + " " + this.props.public_id);
+    // let
     return (
       <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', width:this.props.dimension.width}}>
         <img
@@ -21,6 +22,7 @@ export default class ImageComponent extends React.Component {
             {this.props.unheart? 'Unheart' : 'Heart' }
         </button>
         <button onClick={this.props.handleVote}> Pat </button>
+        {this.props.delete? (<button onClick={this.props.handleDelete} data-id={this.props.public_id}> delete </button>): null}
 
       </div>
     );

@@ -15,59 +15,37 @@ export default class BoardContainer extends React.Component {
           uploaded: [],
           previewOpen: false,
       }
-      this.user = [];
   }
   componentDidMount() {
     console.log("BoardContainer has mounted.");
-    //Get current gallery
-    db.getListOfImages().then(data => {
-      let galleryData = [];
-      data.forEach(element => {
-        galleryData.push({
-          public_id: element.val().public_id,
-          width: element.val().width,
-          height: element.val().height,
-        });;
-      });
-      console.log("Retrieving data");
-      this.setState({
-        gallery: galleryData,
-      });
-    });
     //Check if new child added
     db.getRefOfImages().on('child_added', data => {
+      console.log("Adding child: " + data.key);
+      let tempGal = this.state.gallery;
+      let tempUp = this.state.uploaded;
+      tempGal[data.key] = data.val();
+      if (this.props.authUser) tempUp[data.key] = data.key;
+      else tempUp = [];
       this.setState({
-        gallery: this.state.gallery.concat({
-          public_id: data.val().public_id,
-          width: data.val().width,
-          height: data.val().height,
-        })
+        gallery: tempGal,
+        uploaded: tempUp
       });
     });
     console.log("AuthUser: " + this.props.authUser);
-
   }
   componentWillReceiveProps(newProps) {
+    console.log("Receiving new props");
     if (newProps.authUser) {
       this.setState({
         favourites: newProps.user.favourites? newProps.user.favourites: [],
         uploaded: newProps.user.uploaded? newProps.user.uploaded: [],
       });
-      console.log(newProps.user);
-      // db.getRefOfFavourites(newProps.authUser.uid).on('child_added', data => {
-      //   let tempFav = this.state.favourites;
-      //   tempFav[data.key] = data.val();
-      //   this.setState({
-      //     favourites: tempFav
-      //   });
-      // });
-      db.getRefOfUploads(newProps.authUser.uid).on('child_added', data => {
-        let tempFav = this.state.uploaded;
-        tempFav[data.key] = data.val();
-        this.setState({
-          uploaded: tempFav
-        });
-      });
+    }
+    else {
+      this.setState({
+        favourites: [],
+        uploaded: []
+      })
     }
   }
   changeDimension = (height, width) => {
@@ -76,10 +54,11 @@ export default class BoardContainer extends React.Component {
     return {height:height, width:width}
   }
   handleFavourite = (e) => {
+    console.log("Handling favourite");
     if (this.props.authUser) {
       if (!this.state.favourites[e.target.dataset.id]) {
-        let tempFav = this.state.favourites;
-        tempFav[e.target.dataset.id] = {public_id: e.target.dataset.id}
+        let tempFav = this.state.favourites?this.state.favourites:[];
+        tempFav[e.target.dataset.id] = e.target.dataset.id;
         this.setState({
           favourites: tempFav
         });
@@ -95,7 +74,25 @@ export default class BoardContainer extends React.Component {
       }
     }
   }
+  handleDelete = (e) => {
+    console.log("Deleting Image");
+    if (this.props.authUser) {
+      let tempUp = this.state.uploaded;
+      delete tempUp[e.target.dataset.id];
+      let tempGal = this.state.gallery;
+      delete tempGal[e.target.dataset.id];
+      let tempFav = this.state.favourites;
+      delete tempFav[e.target.dataset.id];
+      this.setState({
+        uploaded: tempUp,
+        gallery: tempGal,
+        favourites: tempFav
+      });
+      db.destroyImage(this.props.authUser.uid, e.target.dataset.id);
+    }
+  }
   clickImage = (e) => {
+    console.log("Clicking image");
     if (!this.state.previewOpen) {
       this.setState({ previewOpen: {url: e.target.dataset.id, width: e.target.dataset.width, height: e.target.dataset.height} });
     } else {
@@ -103,30 +100,37 @@ export default class BoardContainer extends React.Component {
     }
   }
   handleVisibilityFilter = (visibilityFilter) => {
+    console.log("Handling visibility filter");
     switch (visibilityFilter) {
       case 'TIME':
-        return this.state.gallery;
+        return Object.values(this.state.gallery);
       case 'FAVOURITES':
-        return this.state.gallery.filter(id => {
+        return Object.values(this.state.gallery).filter(id => {
+          console.log("Displaying favourites from visibility filter: " + this.state.favourites);
           let public_id = id.public_id;
           return Object.keys(this.state.favourites).includes(public_id);
       });
       case 'YOUR UPLOADS':
-        return this.state.gallery.filter(id => {
+        return Object.values(this.state.gallery).filter(id => {
           let public_id = id.public_id;
           return Object.keys(this.state.uploaded).includes(public_id);
       });
+      case 'PATS':
+        return Object.values(this.state.gallery).sort((a, b) => {
+          return a.upvote - b.upvote;
+        });
       default:
-        return this.state.gallery;
+        return Object.values(this.state.gallery);
     }
   }
   render() {
-    // TODO add unheart button - IN PROGRESS
+    // TODO add unheart button - Done
     // TODO add delete button to uploads
     console.log("Favourites: " + Object.keys(this.state.favourites));
     console.log("Uploaded: " + Object.keys(this.state.uploaded));
+    console.log("Gallery: " + Object.keys(this.state.gallery));
     let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
-
+    console.log(visibleImages);
     if (!this.state.previewOpen) {
         return (
             <Masonry>
@@ -137,6 +141,8 @@ export default class BoardContainer extends React.Component {
                 dbDimension={{width: data.width, height:data.height}}
                 disabled={!this.props.authUser}
                 unheart={Object.keys(this.state.favourites).includes(data.public_id)}
+                delete={Object.keys(this.state.uploaded).includes(data.public_id)}
+                handleDelete={this.handleDelete}
                 key={data.public_id}
                 public_id={data.public_id}
                 handleFavourite={this.handleFavourite}
