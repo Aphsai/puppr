@@ -32,7 +32,11 @@ export const getRefOfFavourites = (uid) =>
   db.ref(`users/${uid}/favourites`);
 
 export const addImageToUser = (uid, public_id) => {
-    db.ref(`users/${uid}/uploaded/${public_id}`).push(public_id);
+  db.ref(`users/${uid}/uploaded/${public_id}`).push(public_id);
+}
+
+export const destroyImageFromUser = (uid, public_id) => {
+  db.ref(`users/${uid}/uploaded/${public_id}`).remove();
 }
 
 export const getRefOfUploads = (uid) =>

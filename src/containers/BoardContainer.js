@@ -11,6 +11,8 @@ export default class BoardContainer extends React.Component {
       super(props);
       this.state = {
           gallery: [],
+          favourites: [],
+          uploaded: [],
           previewOpen: false,
       }
       this.user = [];
@@ -47,18 +49,24 @@ export default class BoardContainer extends React.Component {
   }
   componentWillReceiveProps(newProps) {
     if (newProps.authUser) {
-      this.user = newProps.user;
-      if (!this.user.favourites) {
-        this.user.favourites = [];
-      }
-      if (!this.user.uploaded) {
-        this.user.uploaded = [];
-      }
-      db.getRefOfFavourites(newProps.authUser.uid).on('child_added', data => {
-        this.user.favourites[data.key] = data.val();
+      this.setState({
+        favourites: newProps.user.favourites? newProps.user.favourites: [],
+        uploaded: newProps.user.uploaded? newProps.user.uploaded: [],
       });
+      console.log(newProps.user);
+      // db.getRefOfFavourites(newProps.authUser.uid).on('child_added', data => {
+      //   let tempFav = this.state.favourites;
+      //   tempFav[data.key] = data.val();
+      //   this.setState({
+      //     favourites: tempFav
+      //   });
+      // });
       db.getRefOfUploads(newProps.authUser.uid).on('child_added', data => {
-        this.user.uploaded[data.key] = data.val();
+        let tempFav = this.state.uploaded;
+        tempFav[data.key] = data.val();
+        this.setState({
+          uploaded: tempFav
+        });
       });
     }
   }
@@ -69,11 +77,20 @@ export default class BoardContainer extends React.Component {
   }
   handleFavourite = (e) => {
     if (this.props.authUser) {
-      if (!this.user.favourites[e.target.dataset.id]) {
+      if (!this.state.favourites[e.target.dataset.id]) {
+        let tempFav = this.state.favourites;
+        tempFav[e.target.dataset.id] = {public_id: e.target.dataset.id}
+        this.setState({
+          favourites: tempFav
+        });
         db.addFavouriteToUser(this.props.authUser.uid, e.target.dataset.id);
       }
       else {
-        delete this.user.favourites[e.target.dataset.id];
+        let tempFav = this.state.favourites;
+        delete tempFav[e.target.dataset.id];
+        this.setState({
+          favourites: tempFav
+        });
         db.destroyFavouriteFromUser(this.props.authUser.uid, e.target.dataset.id);
       }
     }
@@ -92,26 +109,24 @@ export default class BoardContainer extends React.Component {
       case 'FAVOURITES':
         return this.state.gallery.filter(id => {
           let public_id = id.public_id;
-          return (this.user.favourites
-          ? Object.keys(this.user.favourites).includes(public_id)
-          :  null);
+          return Object.keys(this.state.favourites).includes(public_id);
       });
       case 'YOUR UPLOADS':
         return this.state.gallery.filter(id => {
           let public_id = id.public_id;
-          return (this.user.uploaded
-          ? Object.values(this.user.uploaded).includes(public_id)
-          : null);
+          return Object.keys(this.state.uploaded).includes(public_id);
       });
       default:
         return this.state.gallery;
     }
   }
   render() {
-    // TODO add unheart button
+    // TODO add unheart button - IN PROGRESS
     // TODO add delete button to uploads
-
+    console.log("Favourites: " + Object.keys(this.state.favourites));
+    console.log("Uploaded: " + Object.keys(this.state.uploaded));
     let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
+
     if (!this.state.previewOpen) {
         return (
             <Masonry>
@@ -121,6 +136,7 @@ export default class BoardContainer extends React.Component {
                 dimension={this.changeDimension(data.height, data.width)}
                 dbDimension={{width: data.width, height:data.height}}
                 disabled={!this.props.authUser}
+                unheart={Object.keys(this.state.favourites).includes(data.public_id)}
                 key={data.public_id}
                 public_id={data.public_id}
                 handleFavourite={this.handleFavourite}

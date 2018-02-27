@@ -2,9 +2,9 @@ import React from 'react';
 export default class ImageComponent extends React.Component {
 
   render() {
+    // console.log(this.props.unheart + " " + this.props.public_id);
     return (
       <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', width:this.props.dimension.width}}>
-
         <img
           onClick={this.props.openPreview}
           data-id={this.props.public_id}
@@ -18,7 +18,7 @@ export default class ImageComponent extends React.Component {
           data-id={this.props.public_id}
           onClick={this.props.handleFavourite}
           disabled={this.props.disabled}>
-            Heart
+            {this.props.unheart? 'Unheart' : 'Heart' }
         </button>
         <button onClick={this.props.handleVote}> Pat </button>
 
