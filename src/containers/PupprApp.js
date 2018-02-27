@@ -11,7 +11,7 @@ export default class PupprApp extends React.Component {
     this.state = {
       authUser: null,
       user: null,
-      visibilityFilter: 'TIME',
+      visibilityFilter: 'ALL',
     }
   }
 

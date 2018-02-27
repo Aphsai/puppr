@@ -5,9 +5,11 @@ import { db } from './firebase';
 export const doCreateUser = (id, username, email) => {
   let favourites = {placeholder: 'empty_child'};
   let uploaded = {placeholder: 'empty_child'}
+  let upvoted = {placeholder: 'empty_child' }
   return db.ref(`users/${id}`).set({
     favourites,
     uploaded,
+    upvoted,
     username,
     email,
   });
@@ -43,6 +45,28 @@ export const addImageToUser = (uid, public_id) => {
 export const destroyImage = (uid, public_id) => {
   db.ref(`users/${uid}/uploaded/${public_id}`).remove();
   db.ref(`images/${public_id}`).remove();
+}
+
+export const upvoteImage = (uid, public_id) => {
+  db.ref(`users/${uid}/upvoted/${public_id}`).push(public_id);
+  let imageRef = db.ref(`images/${public_id}`);
+  imageRef.transaction(data => {
+    data.upvote++;
+    return data;
+  });
+}
+
+export const downvoteImage = (public_id) => {
+  let imageRef = db.ref(`images/${public_id}`);
+  imageRef.transaction(data => {
+    console.log("Data values: " + data);
+    data.upvote--;
+    return data;
+  });
+}
+
+export const destroyUpvote = (uid, public_id) => {
+  db.ref(`users/${uid}/upvoted/${public_id}`).remove();
 }
 
 export const getRefOfUploads = (uid) =>

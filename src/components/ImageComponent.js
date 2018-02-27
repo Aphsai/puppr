@@ -21,7 +21,12 @@ export default class ImageComponent extends React.Component {
           disabled={this.props.disabled}>
             {this.props.unheart? 'Unheart' : 'Heart' }
         </button>
-        <button onClick={this.props.handleVote}> Pat </button>
+        <button
+          onClick={this.props.handleVote}
+          data-id={this.props.public_id}
+          disabled={this.props.disabled}>
+           {this.props.patted? 'Unpat' : 'Pat'}
+        </button>
         {this.props.delete? (<button onClick={this.props.handleDelete} data-id={this.props.public_id}> delete </button>): null}
 
       </div>

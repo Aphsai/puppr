@@ -13,6 +13,7 @@ export default class BoardContainer extends React.Component {
           gallery: [],
           favourites: [],
           uploaded: [],
+          upvoted: [],
           previewOpen: false,
       }
   }
@@ -39,12 +40,14 @@ export default class BoardContainer extends React.Component {
       this.setState({
         favourites: newProps.user.favourites? newProps.user.favourites: [],
         uploaded: newProps.user.uploaded? newProps.user.uploaded: [],
+        upvoted: newProps.user.upvoted? newProps.user.upvoted: [],
       });
     }
     else {
       this.setState({
         favourites: [],
-        uploaded: []
+        uploaded: [],
+        upvoted: []
       })
     }
   }
@@ -83,12 +86,43 @@ export default class BoardContainer extends React.Component {
       delete tempGal[e.target.dataset.id];
       let tempFav = this.state.favourites;
       delete tempFav[e.target.dataset.id];
+      destroyUpvote(this.props.authUser.uid, e.target.dataset.id);
       this.setState({
         uploaded: tempUp,
         gallery: tempGal,
         favourites: tempFav
       });
       db.destroyImage(this.props.authUser.uid, e.target.dataset.id);
+    }
+  }
+  handleVote = (e) => {
+    console.log("Voting for " + e.target.dataset.id);
+    if (this.props.authUser) {
+      if (!this.state.upvoted[e.target.dataset.id]) {
+        let tempGal = this.state.gallery;
+        tempGal[e.target.dataset.id].upvote += 1;
+        let tempUpv = this.state.upvoted;
+        tempUpv[e.target.dataset.id] = e.target.dataset.id;
+        this.setState({
+          gallery: tempGal,
+          upvoted: tempUpv,
+        });
+        db.upvoteImage(this.props.authUser.uid, e.target.dataset.id);
+      }
+      else {
+        let tempGal = this.state.gallery;
+        Object.values("Temporary Gallery values: " + tempGal[e.target.dataset.id])
+        tempGal[e.target.dataset.id].upvote -= 1;
+        let tempUpv = this.state.upvoted;
+        delete tempUpv[e.target.dataset.id];
+        this.setState({
+          gallery: tempGal,
+          upvoted: tempUpv,
+        });
+        console.log("Removing pat of: " + e.target.dataset.id);
+        db.downvoteImage(e.target.dataset.id);
+        db.destroyUpvote(this.props.authUser.uid, e.target.dataset.id);
+      }
     }
   }
   clickImage = (e) => {
@@ -102,11 +136,10 @@ export default class BoardContainer extends React.Component {
   handleVisibilityFilter = (visibilityFilter) => {
     console.log("Handling visibility filter");
     switch (visibilityFilter) {
-      case 'TIME':
+      case 'ALL':
         return Object.values(this.state.gallery);
       case 'FAVOURITES':
         return Object.values(this.state.gallery).filter(id => {
-          console.log("Displaying favourites from visibility filter: " + this.state.favourites);
           let public_id = id.public_id;
           return Object.keys(this.state.favourites).includes(public_id);
       });
@@ -117,7 +150,7 @@ export default class BoardContainer extends React.Component {
       });
       case 'PATS':
         return Object.values(this.state.gallery).sort((a, b) => {
-          return a.upvote - b.upvote;
+          return b.upvote - a.upvote;
         });
       default:
         return Object.values(this.state.gallery);
@@ -125,9 +158,11 @@ export default class BoardContainer extends React.Component {
   }
   render() {
     // TODO add unheart button - Done
-    // TODO add delete button to uploads
+    // TODO add delete button to uploads - Done
+    // TODO handle votes (same system as favourites)
     console.log("Favourites: " + Object.keys(this.state.favourites));
     console.log("Uploaded: " + Object.keys(this.state.uploaded));
+    console.log("Upvoted: " + Object.keys(this.state.upvoted));
     console.log("Gallery: " + Object.keys(this.state.gallery));
     let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
     console.log(visibleImages);
@@ -142,6 +177,8 @@ export default class BoardContainer extends React.Component {
                 disabled={!this.props.authUser}
                 unheart={Object.keys(this.state.favourites).includes(data.public_id)}
                 delete={Object.keys(this.state.uploaded).includes(data.public_id)}
+                patted={Object.keys(this.state.upvoted).includes(data.public_id)}
+                upvotes={data.upvote}
                 handleDelete={this.handleDelete}
                 key={data.public_id}
                 public_id={data.public_id}

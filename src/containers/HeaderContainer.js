@@ -57,7 +57,7 @@ export default class HeaderContainer extends React.Component {
             uid={null}
             doCreateImage={db.doCreateImage}
           />
-          <button onClick={this.handleVisibilityFilter} data-id='TIME'> Date </button>
+          <button onClick={this.handleVisibilityFilter} data-id='ALL'> Date </button>
           <button onClick={this.handleVisibilityFilter} data-id='PATS'> Pats </button>
           <button onClick={this.toggleLogin}> Login </button>
           <button onClick={this.toggleSignup}> Signup </button>
@@ -75,7 +75,7 @@ export default class HeaderContainer extends React.Component {
           addImageToUser={db.addImageToUser}
           doCreateImage={db.doCreateImage}
         />
-        <button onClick={this.handleVisibilityFilter} data-id='TIME'> Date </button>
+        <button onClick={this.handleVisibilityFilter} data-id='ALL'> Date </button>
         <button onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> Favourites </button>
         <button onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> Uploads </button>
         <button onClick={this.handleVisibilityFilter} data-id='PATS'> Pats </button>
