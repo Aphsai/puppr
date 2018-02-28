@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginContainer from './LoginContainer';
 import SignupContainer from './SignupContainer';
-import UploadButtonContainer from './UploadButtonContainer'
+import UploadButtonContainer from './UploadButtonContainer';
 import { db } from '../configs';
 
 export default class HeaderContainer extends React.Component {
@@ -53,14 +53,17 @@ export default class HeaderContainer extends React.Component {
     if (!this.props.authUser) {
       return (
         <div className= "header">
-          <UploadButtonContainer
-            uid={null}
-            doCreateImage={db.doCreateImage}
-          />
-          <button onClick={this.handleVisibilityFilter} data-id='ALL'> Date </button>
-          <button onClick={this.handleVisibilityFilter} data-id='PATS'> Pats </button>
-          <button onClick={this.toggleLogin}> Login </button>
-          <button onClick={this.toggleSignup}> Signup </button>
+          <h1 className="pupprTitle"> Puppr </h1>
+          <div className="uploadContainer">
+            <UploadButtonContainer
+              uid={null}
+              doCreateImage={db.doCreateImage}
+            />
+          </div>
+          <div className="authenticationButtonHolder">
+            <button className="authenticationButtons" onClick={this.toggleLogin}> Login </button>
+            <button className="authenticationButtons" onClick={this.toggleSignup}> Signup </button>
+          </div>
           { this.state.auth == 'login'? <LoginContainer /> :
             this.state.auth == 'signup'? <SignupContainer /> : null
           }
@@ -70,17 +73,19 @@ export default class HeaderContainer extends React.Component {
     else {
       return (
         <div className="header">
-        <UploadButtonContainer
-          uid={this.props.authUser.uid}
-          addImageToUser={db.addImageToUser}
-          doCreateImage={db.doCreateImage}
-        />
-        <button onClick={this.handleVisibilityFilter} data-id='ALL'> Date </button>
-        <button onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> Favourites </button>
-        <button onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> Uploads </button>
-        <button onClick={this.handleVisibilityFilter} data-id='PATS'> Pats </button>
-        <button onClick={this.handleSignOut}> Sign out </button>
-        <label> {this.props.username} </label>
+          <h1 className="pupprTitle"> Puppr </h1>
+          <div className="uploadContainer">
+            <UploadButtonContainer
+              uid={this.props.authUser.uid}
+              addImageToUser={db.addImageToUser}
+              doCreateImage={db.doCreateImage}
+            />
+
+          </div>
+          <div className="authenticationButtonHolder">
+            <h1 className="username"> {this.props.username} </h1>
+            <button className="authenticationButtons" onClick={this.handleSignOut}> Sign out </button>
+          </div>
         </div>
       );
     }

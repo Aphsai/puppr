@@ -15,6 +15,7 @@ export default class BoardContainer extends React.Component {
           uploaded: [],
           upvoted: [],
           previewOpen: false,
+          visibilityFilter: 'ALL',
       }
   }
   componentDidMount() {
@@ -86,7 +87,7 @@ export default class BoardContainer extends React.Component {
       delete tempGal[e.target.dataset.id];
       let tempFav = this.state.favourites;
       delete tempFav[e.target.dataset.id];
-      destroyUpvote(this.props.authUser.uid, e.target.dataset.id);
+      db.destroyUpvote(this.props.authUser.uid, e.target.dataset.id);
       this.setState({
         uploaded: tempUp,
         gallery: tempGal,
@@ -133,7 +134,7 @@ export default class BoardContainer extends React.Component {
       this.setState({ previewOpen: false });
     }
   }
-  handleVisibilityFilter = (visibilityFilter) => {
+  showVisibilityFilter = (visibilityFilter) => {
     console.log("Handling visibility filter");
     switch (visibilityFilter) {
       case 'ALL':
@@ -156,6 +157,11 @@ export default class BoardContainer extends React.Component {
         return Object.values(this.state.gallery);
     }
   }
+  handleVisibilityFilter = (e) => {
+    this.setState({
+      visibilityFilter: e.target.dataset.id
+    })
+  }
   render() {
     // TODO add unheart button - Done
     // TODO add delete button to uploads - Done
@@ -164,30 +170,45 @@ export default class BoardContainer extends React.Component {
     console.log("Uploaded: " + Object.keys(this.state.uploaded));
     console.log("Upvoted: " + Object.keys(this.state.upvoted));
     console.log("Gallery: " + Object.keys(this.state.gallery));
-    let visibleImages = this.handleVisibilityFilter(this.props.visibilityFilter);
+    let visibleImages = this.showVisibilityFilter(this.state.visibilityFilter);
     console.log(visibleImages);
     if (!this.state.previewOpen) {
         return (
-            <Masonry>
-            {visibleImages.map(data =>
-              <ImageComponent
-                src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
-                dimension={this.changeDimension(data.height, data.width)}
-                dbDimension={{width: data.width, height:data.height}}
-                disabled={!this.props.authUser}
-                unheart={Object.keys(this.state.favourites).includes(data.public_id)}
-                delete={Object.keys(this.state.uploaded).includes(data.public_id)}
-                patted={Object.keys(this.state.upvoted).includes(data.public_id)}
-                upvotes={data.upvote}
-                handleDelete={this.handleDelete}
-                key={data.public_id}
-                public_id={data.public_id}
-                handleFavourite={this.handleFavourite}
-                handleVote={this.handleVote}
-                openPreview={this.clickImage}
-              />
-            )}
-          </Masonry>
+            <div>
+              { this.props.authUser
+                ? <div className="visibilityFilterHolder">
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> favourites </button>
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> uploads </button>
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
+                  </div>
+                : <div className="visibilityFilterHolder">
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
+                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
+                  </div>
+
+              }
+              <Masonry>
+              {visibleImages.map(data =>
+                <ImageComponent
+                  src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
+                  dimension={this.changeDimension(data.height, data.width)}
+                  dbDimension={{width: data.width, height:data.height}}
+                  disabled={!this.props.authUser}
+                  unheart={Object.keys(this.state.favourites).includes(data.public_id)}
+                  delete={Object.keys(this.state.uploaded).includes(data.public_id)}
+                  patted={Object.keys(this.state.upvoted).includes(data.public_id)}
+                  upvotes={data.upvote}
+                  handleDelete={this.handleDelete}
+                  key={data.public_id}
+                  public_id={data.public_id}
+                  handleFavourite={this.handleFavourite}
+                  handleVote={this.handleVote}
+                  openPreview={this.clickImage}
+                />
+              )}
+            </Masonry>
+          </div>
         );
     } else {
       return (
@@ -196,7 +217,7 @@ export default class BoardContainer extends React.Component {
             src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + this.state.previewOpen.url + '.jpg'}
             dbDimension={{width: this.state.previewOpen.width, height: this.state.previewOpen.height}}
             handleClick={this.clickImage} />
-          <button onClick={this.clickImage}>leave</button>
+          <button onClick={this.clickImage}> X </button>
         </div>
       );
     }

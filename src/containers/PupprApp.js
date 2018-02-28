@@ -33,12 +33,6 @@ export default class PupprApp extends React.Component {
     });
   }
 
-  handleVisibilityFilter = (id) => {
-    this.setState({
-      visibilityFilter: id
-    });
-  }
-
   handleSignOut = (e) => {
     e.preventDefault();
     auth.doSignOut();
@@ -50,7 +44,7 @@ export default class PupprApp extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="appContainer">
         <HeaderContainer
           authUser={this.state.authUser}
           username={this.state.user?this.state.user.username:''}
