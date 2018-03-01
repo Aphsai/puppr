@@ -1,40 +1,127 @@
+@font-face {
+	font-family: Arista;
+	src: url('fonts/Arista.ttf');
+}
+@font-face {
+	font-family: Caviar_Dreams;
+	src: url('fonts/Caviar_Dreams.ttf');
+}
+
 * {
 	margin: 0;
 	padding: 0;
 	border: 0;
+	outline: 0;
+}
+
+html {
+	width: 100%;
+	background-color: #BCE3FF;
 }
 
 .header {
 	width: 100%;
 	height: 90px;
-	background-color: #006987;
+	background-color: #90BEDE;
 	display: flex;
+	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+	/* box-shadow:3px 0 5px #000; */
+}
+
+.pupprTitle {
+	align-self: flex-start;
+	font-family: Arista;
+	font-size: 70px;
+	color: #DFFDFF;
+	padding-left: 10px;
+}
+
+.uploadContainer {
+	width:100%;
+	height: 90px;
+	position:absolute;
+	z-index:0;
+	display:flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .upload-button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #004357;
+	align-self: center;
+	background-color: #68EDC6;
 	height: 60%;
-	width: 10%;
+	width: 300px;
 	border-radius: 5px;
 }
 
 .upload {
 	font-family: Arial;
-	color: #63bed8;
+	color: #DFFDFF;
 	font-size: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 15%;		
+	width: 300px;
+	height:50px;
+	font-family:Arista;
+}
+
+.visibilityFilterHolder {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px 0;
+}
+
+.visibilityFilterButtons {
+	border-radius: 5px;
+	background-color:#DFFDFF;
+	fill:#79CFD8;
+	font-family: Caviar_Dreams;
+	padding: 5px 10px;
+	margin: 5px 5px;
+	text-align: center;
+}
+
+.visibilityFilterButtons img {
+	height:15px;
+	fill:#79CFD8;
+}
+
+.authenticationButtons {
+	font-size: 30px;
+	font-family: Arista;
+	align-self: flex-end;
+	background-color: transparent;
+	padding:10px;
+	margin: 10px;
+	background-color: #DFFDFF;
+	color: #90BEDE;
+	border-radius:5px;
+	display:inline-block;
+	z-index: 999;
+}
+
+.authenticationButtonHolder {
+	align-self: flex-end;
+}
+
+.username {
+	font-family: Arista;
+	font-weight:normal;
+	color: #DFFDFF;
+	display: inline-block;
+	margin: 0 10px;
 }
 
 input[type="file"] {
 	opacity: 0;
 	width: 0;
+	height: 0;
 }

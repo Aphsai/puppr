@@ -67,7 +67,7 @@ export default class UploadButtonContainer extends React.Component {
             ?(<label className= "upload"> upload
                 <input type="file" onChange={this.uploadFile}/>
             </label>)
-            :<div style={{height:'10px', width:this.state.loading, backgroundColor:'red'}}></div>
+            :<div style={{height:'50px', width:this.state.loading * 300, backgroundColor:'#449B81', alignSelf:'flex-start', borderRadius:'5px'}}></div>
           }
       </div>
     );
