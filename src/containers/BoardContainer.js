@@ -139,7 +139,7 @@ export default class BoardContainer extends React.Component {
     switch (visibilityFilter) {
       case 'ALL':
         return Object.values(this.state.gallery);
-      case 'FAVOURITES'key: "value", 
+      case 'FAVOURITES': 
         return Object.values(this.state.gallery).filter(id => {
           let public_id = id.public_id;
           return Object.keys(this.state.favourites).includes(public_id);
