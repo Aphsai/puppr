@@ -21,9 +21,8 @@ export default class ImageComponent extends React.Component {
             <img
               data-id={this.props.public_id}
               onClick={this.props.handleFavourite}
-              disabled={this.props.disabled}
-              src={"resources/" + (!this.props.unheart? 'unfavourite' : 'favourite') + ".svg"}
-              className="heart"
+              src={"resources/" + (!this.props.unheart? (this.props.disabled? 'favourite_disable' : 'unfavourite') : 'favourite') + ".svg"}
+              className='heart'
             />
         </button>
         <button
@@ -31,8 +30,7 @@ export default class ImageComponent extends React.Component {
           <img
             data-id={this.props.public_id}
             onClick={this.props.handleVote}
-            disabled={this.props.disabled}
-            src={"resources/" + (!this.props.patted? 'unliked' : 'like') + ".svg"}
+            src={"resources/" + (!this.props.patted? (this.props.disabled? 'like_disable' : 'unliked') : 'like') + ".svg"}
             className="like"
           />
         </button>

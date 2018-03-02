@@ -5,7 +5,8 @@ export default class UploadButtonContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      displayString: 'Upload',
     }
   }
 
@@ -29,7 +30,8 @@ export default class UploadButtonContainer extends React.Component {
     //update progress bar
     xhr.upload.addEventListener("progress", (e) => {
       this.setState({
-        loading: Math.round((e.loaded * 100.0) / e.total)
+        loading: (e.loaded / e.total),
+        displayString: "Dog."
       })
     });
 
@@ -49,6 +51,9 @@ export default class UploadButtonContainer extends React.Component {
     fr.onload = () => {
       let img = new Image;
       img.onload = () => {
+        this.setState({
+          displayString: 'Upload'
+        });
         if (this.props.uid) {
           this.props.addImageToUser(this.props.uid, fileName);
         }
@@ -69,7 +74,10 @@ export default class UploadButtonContainer extends React.Component {
 
     var file = e.target.files[0];
     var reader = new FileReader();
-          var that = this;
+    var that = this;
+    this.setState({
+      displayString: '...Dog?'
+    });
     reader.onloadend = function() {
       result = reader.result;
       result = result.replace(/^data:image\/(.*);base64,/, '')
@@ -107,12 +115,14 @@ export default class UploadButtonContainer extends React.Component {
 
     return (
       <div className="upload-button">
-          {!this.state.loading
-            ?(<label className= "upload"> upload
+          <label className= "upload"> {this.state.displayString}
                 <input type="file" onChange={this.filterImage}/>
-            </label>)
-            :<div style={{height:'50px', width:this.state.loading * 300, backgroundColor:'#449B81', alignSelf:'flex-start', borderRadius:'5px'}}></div>
-          }
+            </label>
+            <div
+              className="loadingBar"
+              style={{width:this.state.loading * 300, display:this.state.loading?'default':'none'}}>
+              {this.state.displayString}
+            </div>
       </div>
     );
   }

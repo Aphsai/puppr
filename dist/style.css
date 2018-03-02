@@ -28,7 +28,6 @@ html {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	/* box-shadow:3px 0 5px #000; */
 }
 
 .pupprTitle {
@@ -57,18 +56,19 @@ html {
 	height: 60%;
 	width: 300px;
 	border-radius: 5px;
+	cursor:pointer;
+	position: relative;
 }
 
 .upload {
-	font-family: Arial;
-	color: #DFFDFF;
-	font-size: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 300px;
 	height:50px;
 	font-family:Arista;
+	color: #DFFDFF;
+	font-size: 30px;
 }
 
 .boardContainer {
@@ -109,7 +109,7 @@ html {
 	font-family: Arista;
 	align-self: flex-end;
 	background-color: transparent;
-	padding:10px;
+	padding:7px 10px;
 	margin: 10px;
 	background-color: #DFFDFF;
 	color: #90BEDE;
@@ -157,15 +157,37 @@ html {
 .imageHeartButton {
 	left: 15px;
 }
+
 .imageLikeButton {
 	left: 60px;
 }
+
 .imageDeleteButton {
 	left: 105px;
 }
+
 .heart, .like, .delete {
 	width: 40px;
 	height: 40px;
+}
+
+.loadingBar {
+	height:100%;
+	background-color:#449B81;
+	align-self:flex-start;
+ 	border-radius:5px;
+	transition:all 0.5s ease-in;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	font-family:Arista;
+	color: #DFFDFF;
+	font-size: 30px;
+	position: absolute;
+}
+
+.no-hover:hover {
+	opacity: 0.5;
 }
 
 input[type="file"] {
