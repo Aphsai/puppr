@@ -199,6 +199,7 @@ export default class BoardContainer extends React.Component {
                     unheart={Object.keys(this.state.favourites).includes(data.public_id)}
                     delete={Object.keys(this.state.uploaded).includes(data.public_id)}
                     patted={Object.keys(this.state.upvoted).includes(data.public_id)}
+                    numPats={this.state.gallery[data.public_id].upvote}
                     upvotes={data.upvote}
                     handleDelete={this.handleDelete}
                     key={data.public_id}

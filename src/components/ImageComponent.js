@@ -45,7 +45,7 @@ export default class ImageComponent extends React.Component {
             />
           </button>)
           : null}
-
+          {/* {this.props.numPats} */}
       </div>
     );
   }

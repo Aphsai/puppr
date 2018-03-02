@@ -120,7 +120,7 @@ export default class UploadButtonContainer extends React.Component {
             </label>
             <div
               className="loadingBar"
-              style={{width:this.state.loading * 300, display:this.state.loading?'default':'none'}}>
+              style={{width:this.state.loading * 300, display:this.state.loading?'flex':'none'}}>
               {this.state.displayString}
             </div>
       </div>
