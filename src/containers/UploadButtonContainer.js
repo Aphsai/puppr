@@ -16,10 +16,8 @@ export default class UploadButtonContainer extends React.Component {
     return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
   }
 
-  uploadFile = (input) => {
+  uploadFile = (file) => {
     console.log("Uploading file.");
-    //let file = e.target.files[0];
-    let file = input;
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
@@ -81,7 +79,7 @@ export default class UploadButtonContainer extends React.Component {
         console.log(response.outputs[0].data.concepts);
 
       for (var i = 0; i < 20; i++) {
-         if (response.outputs[0].data.concepts[i].name == "dog" || 
+         if (response.outputs[0].data.concepts[i].name == "dog" ||
             response.outputs[0].data.concepts[i].name == "dogs" ||
             response.outputs[0].data.concepts[i].name == "puppy" ||
             response.outputs[0].data.concepts[i].name == "puppies") {

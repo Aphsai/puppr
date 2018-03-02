@@ -139,7 +139,7 @@ export default class BoardContainer extends React.Component {
     switch (visibilityFilter) {
       case 'ALL':
         return Object.values(this.state.gallery);
-      case 'FAVOURITES': 
+      case 'FAVOURITES':
         return Object.values(this.state.gallery).filter(id => {
           let public_id = id.public_id;
           return Object.keys(this.state.favourites).includes(public_id);
@@ -174,40 +174,42 @@ export default class BoardContainer extends React.Component {
     console.log(visibleImages);
     if (!this.state.previewOpen) {
         return (
-            <div>
-              { this.props.authUser
-                ? <div className="visibilityFilterHolder">
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> favourites </button>
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> uploads </button>
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
-                  </div>
-                : <div className="visibilityFilterHolder">
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
-                    <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
-                  </div>
+            <div className="boardContainer">
+              <div className="masonryContainer">
+                { this.props.authUser
+                  ? <div className="visibilityFilterHolder">
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> favourites </button>
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> uploads </button>
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
+                    </div>
+                  : <div className="visibilityFilterHolder">
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
+                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
+                    </div>
 
-              }
-              <Masonry>
-              {visibleImages.map(data =>
-                <ImageComponent
-                  src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
-                  dimension={this.changeDimension(data.height, data.width)}
-                  dbDimension={{width: data.width, height:data.height}}
-                  disabled={!this.props.authUser}
-                  unheart={Object.keys(this.state.favourites).includes(data.public_id)}
-                  delete={Object.keys(this.state.uploaded).includes(data.public_id)}
-                  patted={Object.keys(this.state.upvoted).includes(data.public_id)}
-                  upvotes={data.upvote}
-                  handleDelete={this.handleDelete}
-                  key={data.public_id}
-                  public_id={data.public_id}
-                  handleFavourite={this.handleFavourite}
-                  handleVote={this.handleVote}
-                  openPreview={this.clickImage}
-                />
-              )}
-            </Masonry>
+                }
+                <Masonry>
+                {visibleImages.map(data =>
+                  <ImageComponent
+                    src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + data.public_id + '.jpg'}
+                    dimension={this.changeDimension(data.height, data.width)}
+                    dbDimension={{width: data.width, height:data.height}}
+                    disabled={!this.props.authUser}
+                    unheart={Object.keys(this.state.favourites).includes(data.public_id)}
+                    delete={Object.keys(this.state.uploaded).includes(data.public_id)}
+                    patted={Object.keys(this.state.upvoted).includes(data.public_id)}
+                    upvotes={data.upvote}
+                    handleDelete={this.handleDelete}
+                    key={data.public_id}
+                    public_id={data.public_id}
+                    handleFavourite={this.handleFavourite}
+                    handleVote={this.handleVote}
+                    openPreview={this.clickImage}
+                  />
+                )}
+              </Masonry>
+            </div>
           </div>
         );
     } else {

@@ -5,8 +5,9 @@ export default class ImageComponent extends React.Component {
     // console.log(this.props.unheart + " " + this.props.public_id);
     // let
     return (
-      <div style={{display:'flex', flexDirection:'column', flexWrap:'wrap', width:this.props.dimension.width}}>
+      <div className="imageContainer" style={{width:this.props.dimension.width}}>
         <img
+          className="imageComponent"
           onClick={this.props.openPreview}
           data-id={this.props.public_id}
           data-width={this.props.dbDimension.width}
@@ -16,18 +17,36 @@ export default class ImageComponent extends React.Component {
           src={this.props.src}
         />
         <button
-          data-id={this.props.public_id}
-          onClick={this.props.handleFavourite}
-          disabled={this.props.disabled}>
-            {this.props.unheart? 'Unheart' : 'Heart' }
+          className="imageHeartButton">
+            <img
+              data-id={this.props.public_id}
+              onClick={this.props.handleFavourite}
+              disabled={this.props.disabled}
+              src={"resources/" + (!this.props.unheart? 'unfavourite' : 'favourite') + ".svg"}
+              className="heart"
+            />
         </button>
         <button
-          onClick={this.props.handleVote}
-          data-id={this.props.public_id}
-          disabled={this.props.disabled}>
-           {this.props.patted? 'Unpat' : 'Pat'}
+          className="imageLikeButton">
+          <img
+            data-id={this.props.public_id}
+            onClick={this.props.handleVote}
+            disabled={this.props.disabled}
+            src={"resources/" + (!this.props.patted? 'unliked' : 'like') + ".svg"}
+            className="like"
+          />
         </button>
-        {this.props.delete? (<button onClick={this.props.handleDelete} data-id={this.props.public_id}> delete </button>): null}
+        {this.props.delete? (
+          <button onClick={this.props.handleDelete} className="imageDeleteButton" data-id={this.props.public_id}>
+            <img
+              data-id={this.props.public_id}
+              onClick={this.props.handleFavourite}
+              disabled={this.props.disabled}
+              src="resources/delete.svg"
+              className="delete"
+            />
+          </button>)
+          : null}
 
       </div>
     );
