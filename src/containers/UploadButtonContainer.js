@@ -1,5 +1,5 @@
 import React from 'react';
-//import clarifai from '../configs';
+import { Clarifai, pupprClarifai } from '../configs/clarifai';
 
 export default class UploadButtonContainer extends React.Component {
   constructor(props) {
@@ -16,9 +16,10 @@ export default class UploadButtonContainer extends React.Component {
     return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4());
   }
 
-  uploadFile = (e) => {
+  uploadFile = (input) => {
     console.log("Uploading file.");
-    let file = e.target.files[0];
+    //let file = e.target.files[0];
+    let file = input;
     var url = `https://api.cloudinary.com/v1_1/dl2zhlvci/upload`;
     var xhr = new XMLHttpRequest();
     var fd = new FormData();
@@ -61,40 +62,47 @@ export default class UploadButtonContainer extends React.Component {
     //
   }
 
-  convertImage = (e) => {
+  filterImage = (e) => {
 
-    const Clarifai = require('clarifai');
-
-    const pupprClarifai = new Clarifai.App({
-      apiKey: 'faa73f6812fc403691acee8d9c897d32'
-    });
-
+    console.log("Checking for tags: " + Clarifai + pupprClarifai);
     var base64;
     var result;
+    var isDog = false;
 
     var file = e.target.files[0];
     var reader = new FileReader();
+          var that = this;
     reader.onloadend = function() {
       result = reader.result;
-      console.log('RESULT', result);
-      //base64 = result.target.result.replace(/^data:image\/(.*);base64,/, '')
-
-      result = result.replace(/^data:image\/(.*);base64,/, '');
+      result = result.replace(/^data:image\/(.*);base64,/, '')
 
       pupprClarifai.models.predict(Clarifai.GENERAL_MODEL, {base64: result}).then(
       function(response) {
-        console.log("1"); 
-        console.log(response);
+        console.log(response.outputs[0].data.concepts);
+
+      for (var i = 0; i < 20; i++) {
+         if (response.outputs[0].data.concepts[i].name == "dog" || 
+            response.outputs[0].data.concepts[i].name == "dogs" ||
+            response.outputs[0].data.concepts[i].name == "puppy" ||
+            response.outputs[0].data.concepts[i].name == "puppies") {
+            isDog = true;
+            break;
+         }
+      }
+
+      if (isDog) {
+        that.uploadFile(file);
+      } else {
+        alert("Upload a dog please");
+      }
+
       },
       function(err) {
-        console.log("12"); 
         console.error(err);
       }
     );
     }
     reader.readAsDataURL(file);
-
-    // Clarifai
   }
 
   render() {
@@ -103,7 +111,7 @@ export default class UploadButtonContainer extends React.Component {
       <div className="upload-button">
           {!this.state.loading
             ?(<label className= "upload"> upload
-                <input type="file" onChange={this.convertImage}/>
+                <input type="file" onChange={this.filterImage}/>
             </label>)
             :<div style={{height:'50px', width:this.state.loading * 300, backgroundColor:'#449B81', alignSelf:'flex-start', borderRadius:'5px'}}></div>
           }
