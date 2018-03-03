@@ -75,9 +75,9 @@ export default class UploadButtonContainer extends React.Component {
     var file = e.target.files[0];
     var reader = new FileReader();
     var that = this;
-    this.setState({
+    /*this.setState({
       displayString: '...Dog?'
-    });
+    });*/
     reader.onloadend = function() {
       result = reader.result;
       result = result.replace(/^data:image\/(.*);base64,/, '')
@@ -99,7 +99,8 @@ export default class UploadButtonContainer extends React.Component {
       if (isDog) {
         that.uploadFile(file);
       } else {
-        alert("Upload a dog please");
+        console.log("UPLOAD BUTTON")
+        that.props.handleError("error")
       }
 
       },
@@ -112,19 +113,17 @@ export default class UploadButtonContainer extends React.Component {
   }
 
   render() {
-
-    return (
-      <div className="upload-button">
-          <label className= "upload"> {this.state.displayString}
-                <input type="file" onChange={this.filterImage}/>
-            </label>
-            <div
-              className="loadingBar"
-              style={{width:this.state.loading * 300, display:this.state.loading?'flex':'none'}}>
-              {this.state.displayString}
-            </div>
-      </div>
-    );
-  }
-
+      return (
+        <div className="upload-button">
+            <label className= "upload"> {this.state.displayString}
+                  <input type="file" onChange={this.filterImage}/>
+              </label>
+              <div
+                className="loadingBar"
+                style={{width:this.state.loading * 300, display:this.state.loading?'flex':'none'}}>
+                {this.state.displayString}
+              </div>
+        </div>
+      );
+    }
 }
