@@ -39,7 +39,7 @@ export default class LoginContainer extends React.Component {
       email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form className="loginForm" onSubmit={this.onSubmit}>
         <input
           value={email}
           placeholder='username or email'
@@ -52,8 +52,8 @@ export default class LoginContainer extends React.Component {
           className="authenticationInputs"
           onChange={e => this.setState({ password: e.target.value })}
         />
-        <button disabled={isInvalid} type="submit">
-          Login
+        <button disabled={isInvalid} type="submit" className="authenticationButtons submitButton">
+          Submit
         </button>
       </form>
     );

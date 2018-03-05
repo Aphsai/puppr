@@ -51,25 +51,29 @@ export default class SignupContainer extends React.Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="signupForm">
         <input
           value={email}
           onChange={event => this.setState({ email: event.target.value })}
-          placeholder='email' />
+          placeholder='email'
+          className="authenticationInputs"/>
         <input
           value={username}
           placeholder='username'
           onChange={event => this.setState({ username: event.target.value })}
+          className="authenticationInputs"
          />
         <input
           value={password}
           placeholder='password'
           onChange={event => this.setState({ password: event.target.value })}
+          className="authenticationInputs"
         />
         <input
           value={conf_password}
           placeholder='confirm password'
           onChange={event => this.setState({ conf_password: event.target.value })}
+          className="authenticationInputs"
         />
         <button disabled={isInvalid} type="Submit"> Sign Up </button>
       </form>

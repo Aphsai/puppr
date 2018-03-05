@@ -105,9 +105,9 @@ html {
 }
 
 .authenticationButtons {
+	cursor:pointer;
 	font-size: 30px;
 	font-family: Arista;
-	align-self: flex-end;
 	background-color: transparent;
 	padding:7px 10px;
 	margin: 10px;
@@ -118,13 +118,36 @@ html {
 	z-index: 999;
 }
 
+.submitButton {
+	font-size: 18px;
+	background-color: #e1ffdf
+}
+
 .authenticationButtonHolder {
 	align-self: flex-end;
+	display:flex;
+
+
+	justify-content: space-around;
+	align-items: center;
+	position:relative;
 }
 
 .authenticationInputs {
-	height:90px;
-	width:100px;
+	height:50px;
+	width:200px;
+	margin:3px 10px;
+	display:inline-block;
+	box-sizing: border-box;
+	padding:0 10px;
+	border-radius:5px;
+	font-family: Caviar_Dreams;
+}
+
+.loginForm, .signupForm {
+	display: inline-block;
+	position: absolute;
+	top:90px;
 }
 
 .username {

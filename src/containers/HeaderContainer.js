@@ -51,7 +51,7 @@ export default class HeaderContainer extends React.Component {
   }
 
   handleError = (error) => {
-    console.log("HEADER")    
+    console.log("HEADER")
     this.props.handleError(error);
   }
 
@@ -74,6 +74,7 @@ export default class HeaderContainer extends React.Component {
           { this.state.auth == 'login'? <LoginContainer handleError={this.handleError} /> :
             this.state.auth == 'signup'? <SignupContainer handleError={this.handleError} /> : null
           }
+          </div>
         </div>
       );
     }
