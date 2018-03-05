@@ -162,9 +162,9 @@ html {
 	background-color: #90BEDE;
 	padding: 10px;
 	border-radius:5px;
-	margin: 1px;
+	margin:0.2%;
 	box-sizing: border-box;
-	width:32%;
+	width:24.6%;
 }
 
 .imageComponent {
@@ -232,7 +232,7 @@ input[type="file"] {
 	padding: 20px 20px 20px 20px;
 	top: 90%;
 	left: 50%;
-	transform: translate(-50%, -50%);	
+	transform: translate(-50%, -50%);
 	font-size: 12px;
 	text-align: center;
 	background-color: #383838;

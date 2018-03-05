@@ -19,8 +19,6 @@ export default class BoardContainer extends React.Component {
       }
   }
   componentDidMount() {
-    console.log("BoardContainer has mounted.");
-    //Check if new child added
     db.getRefOfImages().on('child_added', data => {
       console.log("Adding child: " + data.key);
       let tempGal = this.state.gallery;
@@ -33,11 +31,8 @@ export default class BoardContainer extends React.Component {
         uploaded: tempUp
       });
     });
-
-    console.log("AuthUser: " + this.props.authUser);
   }
   componentWillReceiveProps(newProps) {
-    console.log("Receiving new props");
     if (newProps.authUser) {
       this.setState({
         favourites: newProps.user.favourites? newProps.user.favourites: [],
@@ -59,7 +54,6 @@ export default class BoardContainer extends React.Component {
     return {height:height, width:width}
   }
   handleFavourite = (e) => {
-    console.log("Handling favourite");
     if (this.props.authUser) {
       if (!this.state.favourites[e.target.dataset.id]) {
         let tempFav = this.state.favourites?this.state.favourites:[];
@@ -80,7 +74,6 @@ export default class BoardContainer extends React.Component {
     }
   }
   handleDelete = (e) => {
-    console.log("Deleting Image");
     if (this.props.authUser) {
       let tempUp = this.state.uploaded;
       delete tempUp[e.target.dataset.id];
@@ -98,7 +91,6 @@ export default class BoardContainer extends React.Component {
     }
   }
   handleVote = (e) => {
-    console.log("Voting for " + e.target.dataset.id);
     if (this.props.authUser) {
       if (!this.state.upvoted[e.target.dataset.id]) {
         let tempGal = this.state.gallery;
@@ -113,7 +105,6 @@ export default class BoardContainer extends React.Component {
       }
       else {
         let tempGal = this.state.gallery;
-        Object.values("Temporary Gallery values: " + tempGal[e.target.dataset.id])
         tempGal[e.target.dataset.id].upvote -= 1;
         let tempUpv = this.state.upvoted;
         delete tempUpv[e.target.dataset.id];
@@ -121,14 +112,12 @@ export default class BoardContainer extends React.Component {
           gallery: tempGal,
           upvoted: tempUpv,
         });
-        console.log("Removing pat of: " + e.target.dataset.id);
         db.downvoteImage(e.target.dataset.id);
         db.destroyUpvote(this.props.authUser.uid, e.target.dataset.id);
       }
     }
   }
   clickImage = (e) => {
-    console.log("Clicking image");
     if (!this.state.previewOpen) {
       this.setState({ previewOpen: {url: e.target.dataset.id, width: e.target.dataset.width, height: e.target.dataset.height} });
     } else {
@@ -136,7 +125,6 @@ export default class BoardContainer extends React.Component {
     }
   }
   showVisibilityFilter = (visibilityFilter) => {
-    console.log("Handling visibility filter");
     switch (visibilityFilter) {
       case 'ALL':
         return Object.values(this.state.gallery);
@@ -164,13 +152,6 @@ export default class BoardContainer extends React.Component {
     })
   }
   render() {
-    // TODO add unheart button - Done
-    // TODO add delete button to uploads - Done
-    // TODO handle votes (same system as favourites)
-    console.log("Favourites: " + Object.keys(this.state.favourites));
-    console.log("Uploaded: " + Object.keys(this.state.uploaded));
-    console.log("Upvoted: " + Object.keys(this.state.upvoted));
-    console.log("Gallery: " + Object.keys(this.state.gallery));
     let visibleImages = this.showVisibilityFilter(this.state.visibilityFilter);
     console.log(visibleImages);
         return (
@@ -216,9 +197,9 @@ export default class BoardContainer extends React.Component {
                   src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + this.state.previewOpen.url + '.jpg'}
                   dbDimension={{width: this.state.previewOpen.width, height: this.state.previewOpen.height}}
                   handleClick={this.clickImage} />
-              </div>    
+              </div>
             }
           </div>
-        ); 
+        );
     }
 }

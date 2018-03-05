@@ -5,7 +5,7 @@ export default class ImageComponent extends React.Component {
     // console.log(this.props.unheart + " " + this.props.public_id);
     // let
     return (
-      <div className="imageContainer" style={{width:this.props.dimension.width}}>
+      <div className="imageContainer">
         <img
           className="imageComponent"
           onClick={this.props.openPreview}

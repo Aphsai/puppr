@@ -9,7 +9,7 @@ export default class ErrorComponent extends React.Component {
 
 		return (
 			<div className = "errorBox errorBox-fadingOut">
-				<h1>{this.props.message}</h1>
+				<h1> {this.props.message} </h1>
 			</div>
 		)
 	}

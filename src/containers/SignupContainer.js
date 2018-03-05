@@ -75,7 +75,9 @@ export default class SignupContainer extends React.Component {
           onChange={event => this.setState({ conf_password: event.target.value })}
           className="authenticationInputs"
         />
-        <button disabled={isInvalid} type="Submit"> Sign Up </button>
+        <button disabled={isInvalid} type="submit" className="authenticationButtons submitButton">
+          Submit
+        </button>
       </form>
     )
   }
