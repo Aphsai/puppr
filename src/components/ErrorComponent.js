@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+
 export default class ErrorComponent extends React.Component {
 
+	componentDidMount() {
+		setTimeout(this.props.removeError, 2000);
+	}
 	render() {
+
 		return (
-			<div className = "errorBox" style={{ zIndex: 9999 }} onClick={this.props.handleClick}>
-				<h1>It seems like there were no good boys in your upload...</h1>
+			<div className = "errorBox errorBox-fadingOut">
+				<h1>{this.props.message}</h1>
 			</div>
 		)
 	}

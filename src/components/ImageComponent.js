@@ -12,8 +12,6 @@ export default class ImageComponent extends React.Component {
           data-id={this.props.public_id}
           data-width={this.props.dbDimension.width}
           data-height={this.props.dbDimension.height}
-          width={this.props.dimension.width}
-          height={this.props.dimension.height}
           src={this.props.src}
         />
         <button

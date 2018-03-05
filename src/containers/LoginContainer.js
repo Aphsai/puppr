@@ -5,7 +5,6 @@ import firebase, { auth } from '../configs';
 const INITIAL_STATE = {
   email: '',
   password: '',
-  error: null,
 };
 
 export default class LoginContainer extends React.Component {
@@ -25,9 +24,7 @@ export default class LoginContainer extends React.Component {
 
     auth.doSignInWithEmailAndPassword(email, password)
     .catch(error => {
-      this.setState({
-        error: error
-      });
+      this.props.handleError(error.message)
     });
   }
 
@@ -35,7 +32,6 @@ export default class LoginContainer extends React.Component {
     const {
       email,
       password,
-      error,
     } = this.state;
 
     const isInvalid =
@@ -59,7 +55,6 @@ export default class LoginContainer extends React.Component {
         <button disabled={isInvalid} type="submit" className="authenticationButtons submitButton">
           Submit
         </button>
-        { error && <p>{error.message}</p> }
       </form>
     );
   }

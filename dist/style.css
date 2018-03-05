@@ -162,11 +162,14 @@ html {
 	background-color: #90BEDE;
 	padding: 10px;
 	border-radius:5px;
-	margin: 5px;
+	margin: 1px;
+	box-sizing: border-box;
+	width:32%;
 }
 
 .imageComponent {
 	position:relative;
+	width:100%;
 }
 
 .imageLikeButton, .imageHeartButton, .imageDeleteButton {
@@ -224,20 +227,57 @@ input[type="file"] {
 
 .errorBox {
 	font-family: Caviar_Dreams;
-	position: absolute;
-	top: 50%;
+	color: white;
+	position: fixed;
+	padding: 20px 20px 20px 20px;
+	top: 90%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	font-size: 25px;
+	transform: translate(-50%, -50%);	
+	font-size: 12px;
 	text-align: center;
-	background-color: red;
+	background-color: #383838;
+	opacity: 0.8;
+	z-index: 99999;
 	border-radius:5px;
+}
+.errorBox-fadingOut {
+	-moz-animation: fadeout 0.4s forwards; /* Firefox */
+    -webkit-animation: fadeout 0.4s forwards; /* Safari and Chrome */
+    -o-animation: fadeout 0.4s forwards;
+    animation-delay: 1.6s;
 }
 
 .errorBox:hover {
 	cursor: default;
 }
 
+@keyframes fadeout {
+    from { opacity: 0.8; }
+    to   { opacity: 0; }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadeout {
+    from { opacity: 0.8; }
+    to   { opacity: 0; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeout {
+    from { opacity: 0.8; }
+    to   { opacity: 0; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadeout {
+    from { opacity: 0.8; }
+    to   { opacity: 0; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadeout {
+    from { opacity: 0.8; }
+    to   { opacity: 0; }
+}
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {

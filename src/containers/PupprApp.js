@@ -51,7 +51,8 @@ export default class PupprApp extends React.Component {
   	console.log(error);
   }
 
-  handleClick = (e) => {
+  removeError = () => {
+    console.log("is reaching");
   	this.setState({
   		error: null
   	})
@@ -73,7 +74,8 @@ export default class PupprApp extends React.Component {
           user={this.state.user}
           visibilityFilter={this.state.visibilityFilter}
          />
-         {this.state.error && <ErrorComponent handleClick={this.handleClick}/>}
+         {this.state.error && <ErrorComponent removeError={this.removeError}
+                                              message={this.state.error}/>}
       </div>
     );
   }
