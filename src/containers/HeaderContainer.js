@@ -71,8 +71,8 @@ export default class HeaderContainer extends React.Component {
             <button className="authenticationButtons" onClick={this.toggleLogin}> Login </button>
             <button className="authenticationButtons" onClick={this.toggleSignup}> Signup </button>
           </div>
-          { this.state.auth == 'login'? <LoginContainer /> :
-            this.state.auth == 'signup'? <SignupContainer /> : null
+          { this.state.auth == 'login'? <LoginContainer handleError={this.handleError} /> :
+            this.state.auth == 'signup'? <SignupContainer handleError={this.handleError} /> : null
           }
         </div>
       );

@@ -1,4 +1,5 @@
-import React from 'react'	
+import React from 'react';
+import LightBox from 'react-image-lightbox';
 export default class PreviewComponent extends React.Component {
 
 	constructor(props) {
@@ -38,13 +39,12 @@ export default class PreviewComponent extends React.Component {
 	render() {
 		let dimension = this.dimension(this.props.dbDimension.width, this.props.dbDimension.height);
 		return (
-			<div>
-				<img 
-					width={dimension.width} 
-					height={dimension.height} 
-					src={this.props.src}
-					onClick={this.props.handleClick} />
-			</div>
+			<LightBox className="preview"
+				width={dimension.width} 
+				height={dimension.height} 
+				mainSrc={this.props.src}
+				onCloseRequest={this.props.handleClick}
+			/>
 
 		);
 	}

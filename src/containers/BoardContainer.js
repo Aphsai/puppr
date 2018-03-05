@@ -33,6 +33,7 @@ export default class BoardContainer extends React.Component {
         uploaded: tempUp
       });
     });
+
     console.log("AuthUser: " + this.props.authUser);
   }
   componentWillReceiveProps(newProps) {
@@ -172,7 +173,6 @@ export default class BoardContainer extends React.Component {
     console.log("Gallery: " + Object.keys(this.state.gallery));
     let visibleImages = this.showVisibilityFilter(this.state.visibilityFilter);
     console.log(visibleImages);
-    if (!this.state.previewOpen) {
         return (
             <div className="boardContainer">
               <div className="masonryContainer">
@@ -211,18 +211,14 @@ export default class BoardContainer extends React.Component {
                 )}
               </Masonry>
             </div>
+            {this.state.previewOpen && <div style={{display:'flex', flexWrap:'wrap', justifyContent: 'center', alignItems:'center', position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(50, 50, 50, 0.8)'}}>
+                <PreviewComponent
+                  src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + this.state.previewOpen.url + '.jpg'}
+                  dbDimension={{width: this.state.previewOpen.width, height: this.state.previewOpen.height}}
+                  handleClick={this.clickImage} />
+              </div>    
+            }
           </div>
-        );
-    } else {
-      return (
-        <div style={{display:'flex', flexWrap:'wrap'}}>
-          <PreviewComponent
-            src={'http://res.cloudinary.com/dl2zhlvci/image/upload/v1519264049/' + this.state.previewOpen.url + '.jpg'}
-            dbDimension={{width: this.state.previewOpen.width, height: this.state.previewOpen.height}}
-            handleClick={this.clickImage} />
-          <button onClick={this.clickImage}> X </button>
-        </div>
-      );
+        ); 
     }
-  }
 }

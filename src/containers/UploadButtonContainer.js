@@ -102,7 +102,7 @@ export default class UploadButtonContainer extends React.Component {
         that.uploadFile(file);
       } else {
         console.log("UPLOAD BUTTON")
-        that.props.handleError("error")
+        that.props.handleError("It seems like there were no good boys in your upload...")
       }
 
       },

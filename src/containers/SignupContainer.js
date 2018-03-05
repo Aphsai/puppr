@@ -6,7 +6,6 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   conf_password: '',
-  error: null,
 };
 
 export default class SignupContainer extends React.Component {
@@ -27,15 +26,11 @@ export default class SignupContainer extends React.Component {
       .then(authUser => {
         db.doCreateUser(authUser.uid, username, email)
           .catch(error => {
-            this.setState({
-              error: error
-            })
+            this.props.handleError(error.message)
           });
       })
       .catch(error => {
-        this.setState({
-          error: error
-        });
+          this.props.handleError(error.message)
       });
 
   }
@@ -47,7 +42,6 @@ export default class SignupContainer extends React.Component {
       email,
       password,
       conf_password,
-      error,
     } = this.state;
 
     const isInvalid =
@@ -78,8 +72,6 @@ export default class SignupContainer extends React.Component {
           onChange={event => this.setState({ conf_password: event.target.value })}
         />
         <button disabled={isInvalid} type="Submit"> Sign Up </button>
-
-        { error && <p>{error.message}</p>}
       </form>
     )
   }
