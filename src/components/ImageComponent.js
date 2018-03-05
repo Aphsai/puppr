@@ -29,7 +29,7 @@ export default class ImageComponent extends React.Component {
           className="imageLikeButton">
           <img
             data-id={this.props.public_id}
-            onClick={this.props.handleVote}
+              onClick={this.props.handleVote}
             src={"resources/" + (!this.props.patted? (this.props.disabled? 'like_disable' : 'unliked') : 'like') + ".svg"}
             className="like"
           />
