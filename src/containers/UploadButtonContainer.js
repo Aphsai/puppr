@@ -101,7 +101,9 @@ export default class UploadButtonContainer extends React.Component {
       if (isDog) {
         that.uploadFile(file);
       } else {
-        console.log("UPLOAD BUTTON")
+        that.setState({
+          displayString: 'Upload'
+        });
         that.props.handleError("error")
       }
 
