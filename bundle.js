@@ -37864,7 +37864,6 @@ var BoardContainer = function (_React$Component) {
     };
 
     _this.handleFavourite = function (e) {
-      console.log("Handling favourite");
       if (_this.props.authUser) {
         if (!_this.state.favourites[e.target.dataset.id]) {
           var tempFav = _this.state.favourites ? _this.state.favourites : [];
@@ -37885,7 +37884,6 @@ var BoardContainer = function (_React$Component) {
     };
 
     _this.handleDelete = function (e) {
-      console.log("Deleting Image");
       if (_this.props.authUser) {
         var tempUp = _this.state.uploaded;
         delete tempUp[e.target.dataset.id];
@@ -37904,7 +37902,6 @@ var BoardContainer = function (_React$Component) {
     };
 
     _this.handleVote = function (e) {
-      console.log("Voting for " + e.target.dataset.id);
       if (_this.props.authUser) {
         if (!_this.state.upvoted[e.target.dataset.id]) {
           var tempGal = _this.state.gallery;
@@ -37918,7 +37915,6 @@ var BoardContainer = function (_React$Component) {
           _configs.db.upvoteImage(_this.props.authUser.uid, e.target.dataset.id);
         } else {
           var _tempGal = _this.state.gallery;
-          Object.values("Temporary Gallery values: " + _tempGal[e.target.dataset.id]);
           _tempGal[e.target.dataset.id].upvote -= 1;
           var _tempUpv = _this.state.upvoted;
           delete _tempUpv[e.target.dataset.id];
@@ -37926,7 +37922,6 @@ var BoardContainer = function (_React$Component) {
             gallery: _tempGal,
             upvoted: _tempUpv
           });
-          console.log("Removing pat of: " + e.target.dataset.id);
           _configs.db.downvoteImage(e.target.dataset.id);
           _configs.db.destroyUpvote(_this.props.authUser.uid, e.target.dataset.id);
         }
@@ -37934,7 +37929,6 @@ var BoardContainer = function (_React$Component) {
     };
 
     _this.clickImage = function (e) {
-      console.log("Clicking image");
       if (!_this.state.previewOpen) {
         _this.setState({ previewOpen: { url: e.target.dataset.id, width: e.target.dataset.width, height: e.target.dataset.height } });
       } else {
@@ -37943,7 +37937,6 @@ var BoardContainer = function (_React$Component) {
     };
 
     _this.showVisibilityFilter = function (visibilityFilter) {
-      console.log("Handling visibility filter");
       switch (visibilityFilter) {
         case 'ALL':
           return Object.values(_this.state.gallery);
@@ -37988,8 +37981,6 @@ var BoardContainer = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      console.log("BoardContainer has mounted.");
-      //Check if new child added
       _configs.db.getRefOfImages().on('child_added', function (data) {
         console.log("Adding child: " + data.key);
         var tempGal = _this2.state.gallery;
@@ -38001,13 +37992,10 @@ var BoardContainer = function (_React$Component) {
           uploaded: tempUp
         });
       });
-
-      console.log("AuthUser: " + this.props.authUser);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
-      console.log("Receiving new props");
       if (newProps.authUser) {
         this.setState({
           favourites: newProps.user.favourites ? newProps.user.favourites : [],
@@ -38027,13 +38015,6 @@ var BoardContainer = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      // TODO add unheart button - Done
-      // TODO add delete button to uploads - Done
-      // TODO handle votes (same system as favourites)
-      console.log("Favourites: " + Object.keys(this.state.favourites));
-      console.log("Uploaded: " + Object.keys(this.state.uploaded));
-      console.log("Upvoted: " + Object.keys(this.state.upvoted));
-      console.log("Gallery: " + Object.keys(this.state.gallery));
       var visibleImages = this.showVisibilityFilter(this.state.visibilityFilter);
       console.log(visibleImages);
       return _react2.default.createElement(
@@ -60723,7 +60704,7 @@ var ImageComponent = function (_React$Component) {
       // let
       return _react2.default.createElement(
         "div",
-        { className: "imageContainer", style: { width: this.props.dimension.width } },
+        { className: "imageContainer" },
         _react2.default.createElement("img", {
           className: "imageComponent",
           onClick: this.props.openPreview,
@@ -64592,8 +64573,8 @@ var SignupContainer = function (_React$Component) {
         }),
         _react2.default.createElement(
           'button',
-          { disabled: isInvalid, type: 'Submit' },
-          ' Sign Up '
+          { disabled: isInvalid, type: 'submit', className: 'authenticationButtons submitButton' },
+          'Submit'
         )
       );
     }
@@ -68134,7 +68115,9 @@ var ErrorComponent = function (_React$Component) {
 				_react2.default.createElement(
 					"h1",
 					null,
-					this.props.message
+					" ",
+					this.props.message,
+					" "
 				)
 			);
 		}
