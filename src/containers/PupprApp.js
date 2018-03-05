@@ -1,6 +1,7 @@
 import React from 'react';
 import BoardContainer from './BoardContainer'
 import HeaderContainer from './HeaderContainer'
+import ErrorComponent from '../components/ErrorComponent';
 import { firebase, auth, db } from '../configs';
 
 
@@ -12,6 +13,7 @@ export default class PupprApp extends React.Component {
       authUser: null,
       user: null,
       visibilityFilter: 'ALL',
+      error: null
     }
   }
 
@@ -42,6 +44,19 @@ export default class PupprApp extends React.Component {
     });
   }
 
+  handleError = (error) => {
+  	this.setState({
+  		error: error
+  	});
+  	console.log(error);
+  }
+
+  handleClick = (e) => {
+  	this.setState({
+  		error: null
+  	})
+  }
+
   render() {
     return (
       <div className="appContainer">
@@ -51,12 +66,14 @@ export default class PupprApp extends React.Component {
           visibilityFilter={this.state.visibilityFilter}
           handleVisibilityFilter={this.handleVisibilityFilter}
           handleSignOut={this.handleSignOut}
+          handleError={this.handleError}
          />
         <BoardContainer
           authUser={this.state.authUser}
           user={this.state.user}
           visibilityFilter={this.state.visibilityFilter}
          />
+         {this.state.error && <ErrorComponent handleClick={this.handleClick}/>}
       </div>
     );
   }

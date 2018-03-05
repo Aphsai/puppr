@@ -199,6 +199,22 @@ input[type="file"] {
 	height: 0;
 }
 
+.errorBox {
+	font-family: Caviar_Dreams;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 25px;
+	text-align: center;
+	background-color: red;
+	border-radius:5px;
+}
+
+.errorBox:hover {
+	cursor: default;
+}
+
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {

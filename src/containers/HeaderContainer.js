@@ -45,8 +45,14 @@ export default class HeaderContainer extends React.Component {
       auth:null,
     });
   }
+
   handleVisibilityFilter = (e) => {
     this.props.handleVisibilityFilter(e.target.dataset.id);
+  }
+
+  handleError = (error) => {
+    console.log("HEADER")    
+    this.props.handleError(error);
   }
 
   render() {
@@ -58,6 +64,7 @@ export default class HeaderContainer extends React.Component {
             <UploadButtonContainer
               uid={null}
               doCreateImage={db.doCreateImage}
+              handleError={this.handleError}
             />
           </div>
           <div className="authenticationButtonHolder">
@@ -79,6 +86,7 @@ export default class HeaderContainer extends React.Component {
               uid={this.props.authUser.uid}
               addImageToUser={db.addImageToUser}
               doCreateImage={db.doCreateImage}
+              handleError={this.props.handleError}
             />
 
           </div>
