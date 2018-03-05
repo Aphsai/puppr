@@ -45,6 +45,7 @@ html {
 	display:flex;
 	align-items: center;
 	justify-content: center;
+	cursor:pointer;
 }
 
 .upload-button {
@@ -69,6 +70,7 @@ html {
 	font-family:Arista;
 	color: #DFFDFF;
 	font-size: 30px;
+	cursor:pointer;
 }
 
 .boardContainer {
@@ -92,16 +94,14 @@ html {
 .visibilityFilterButtons {
 	border-radius: 5px;
 	background-color:#DFFDFF;
-	fill:#79CFD8;
 	font-family: Caviar_Dreams;
 	padding: 5px 10px;
 	margin: 5px 5px;
 	text-align: center;
 }
 
-.visibilityFilterButtons img {
-	height:15px;
-	fill:#79CFD8;
+.visibilityFilterSelected {
+	color:#005f65;
 }
 
 .authenticationButtons {
@@ -120,6 +120,11 @@ html {
 
 .authenticationButtonHolder {
 	align-self: flex-end;
+}
+
+.authenticationInputs {
+	height:90px;
+	width:100px;
 }
 
 .username {

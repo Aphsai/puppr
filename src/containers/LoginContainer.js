@@ -47,11 +47,13 @@ export default class LoginContainer extends React.Component {
         <input
           value={email}
           placeholder='username or email'
+          className="authenticationInputs"
           onChange={e => this.setState({ email: e.target.value })}
         />
         <input
           value={password}
           placeholder='password'
+          className="authenticationInputs"
           onChange={e => this.setState({ password: e.target.value })}
         />
         <button disabled={isInvalid} type="submit">

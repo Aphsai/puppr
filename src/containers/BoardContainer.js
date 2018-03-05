@@ -178,10 +178,10 @@ export default class BoardContainer extends React.Component {
               <div className="masonryContainer">
                 { this.props.authUser
                   ? <div className="visibilityFilterHolder">
-                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
-                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> favourites </button>
-                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> uploads </button>
-                      <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
+                      <button className={["visibilityFilterButtons",this.state.visibilityFilter=='ALL'?"visibilityFilterSelected":""].join(' ')}  onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>
+                      <button className={["visibilityFilterButtons",this.state.visibilityFilter=='FAVOURITES'?"visibilityFilterSelected":""].join(' ')} onClick={this.handleVisibilityFilter} data-id='FAVOURITES'> favourites </button>
+                      <button className={["visibilityFilterButtons",this.state.visibilityFilter=='YOUR UPLOADS'?"visibilityFilterSelected":""].join(' ')} onClick={this.handleVisibilityFilter} data-id='YOUR UPLOADS'> uploads </button>
+                      <button className={["visibilityFilterButtons",this.state.visibilityFilter=='PATS'?"visibilityFilterSelected":""].join(' ')} onClick={this.handleVisibilityFilter} data-id='PATS'> likes </button>
                     </div>
                   : <div className="visibilityFilterHolder">
                       <button className="visibilityFilterButtons" onClick={this.handleVisibilityFilter} data-id='ALL'> home </button>

@@ -5,7 +5,7 @@ export default class UploadButtonContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      loading: 0,
       displayString: 'Upload',
     }
   }
@@ -40,7 +40,7 @@ export default class UploadButtonContainer extends React.Component {
       if (xhr.readyState === 4) {
         console.log("Upload complete. Success");
         this.setState ({
-          loading:false
+          loading:0
         });
         fr.readAsDataURL(file);
       }
@@ -75,9 +75,11 @@ export default class UploadButtonContainer extends React.Component {
     var file = e.target.files[0];
     var reader = new FileReader();
     var that = this;
-    /*this.setState({
-      displayString: '...Dog?'
-    });*/
+    if (file) {
+      this.setState({
+        displayString: '...Dog?'
+      });
+    }
     reader.onloadend = function() {
       result = reader.result;
       result = result.replace(/^data:image\/(.*);base64,/, '')
