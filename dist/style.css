@@ -148,6 +148,7 @@ html {
 	display: inline-block;
 	position: absolute;
 	top:90px;
+	z-index: 99999;
 }
 
 .username {
