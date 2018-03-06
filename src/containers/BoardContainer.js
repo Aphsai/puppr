@@ -20,7 +20,6 @@ export default class BoardContainer extends React.Component {
   }
   componentDidMount() {
     db.getRefOfImages().on('child_added', data => {
-      console.log("Adding child: " + data.key);
       let tempGal = this.state.gallery;
       let tempUp = this.state.uploaded;
       tempGal[data.key] = data.val();
@@ -153,7 +152,6 @@ export default class BoardContainer extends React.Component {
   }
   render() {
     let visibleImages = this.showVisibilityFilter(this.state.visibilityFilter);
-    console.log(visibleImages);
         return (
             <div className="boardContainer">
               <div className="masonryContainer">
